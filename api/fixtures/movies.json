@@ -1,0 +1,182 @@
+[
+  {
+    "model": "Movie",
+    "items": [
+      {
+        "id": 1,
+        "name": "Now You See Me",
+        "year": 2013,
+        "description": "An FBI agent and an Interpol detective track a team of illusionists who pull off bank heists during their performances and reward their audiences with the money.",
+        "length": 115,
+        "cover": "/images/movies/nowYouSeeMe.jpg",
+        "rating": 7.3,
+        "storyLine": "Four magicians each answer a mysterious summons to an obscure address with secrets inside. A year later, they are the Four Horsemen, big time stage illusionists who climax their sold out Las Vegas show with a bank apparently robbed for real. This puts agents Dylan Rhodes of the FBI and Alma Dray of Interpol on the case to find out how they did it. However, this mystery proves difficult to solve even with the insights of the professional illusion exposer, Thaddeus Bradley. What follows is a bizarre investigation where nothing is what it seems with illusions, dark secrets and hidden agendas galore as all involved are reminded of a great truth in this puzzle: the closer you look, the less you see. "
+      },
+      {
+        "id": 2,
+        "name": "In Time",
+        "year": 2011,
+        "description": "In a future where people stop aging at 25, but are engineered to live only one more year, having the means to buy your way out of the situation is a shot at immortal youth. Here, Will Salas finds himself accused of murder and on the run with a hostage - a connection that becomes an important part of the way against the system.",
+        "length": 109,
+        "cover": "/images/movies/inTime.jpg",
+        "rating": 6.7,
+        "storyLine": "Welcome to a world where time has become the ultimate currency. You stop aging at 25, but there's a catch: you're genetically-engineered to live only one more year, unless you can buy your way out of it. The rich \"earn\" decades at a time (remaining at age 25), becoming essentially immortal, while the rest beg, borrow or steal enough hours to make it through the day. When a man from the wrong side of the tracks is falsely accused of murder, he is forced to go on the run with a beautiful hostage. Living minute to minute, the duo's love becomes a powerful tool in their war against the system."
+      },
+      {
+        "id": 3,
+        "name": "Source Code",
+        "year": 2011,
+        "description": "A soldier wakes up in someone else's body and discovers he's part of an experimental government program to find the bomber of a commuter train. A mission he has only 8 minutes to complete.",
+        "length": 93,
+        "cover": "/images/movies/sourceCode.jpg",
+        "rating": 7.5,
+        "storyLine": "Colter Stevens, a US Army helicopter pilot whose last memory is flying in Afghanistan, wakes up on a commuter train. However, he discovers that he has assumed the identity of another man. 8 minutes later, the train explodes and Stevens finds himself in some kind of pod. He then talks to someone named Goodwin, who tells him he has to go back and find out who the bomber is. He is sent back to go through the whole thing again and attempts to find who the bomber is but fails. The bomb goes off and Stevens finds himself in the pod again. He is sent back another time, yet still cannot find out anything. When he returns, he asks what is going on. Goodwin and Rutledge, the scientist in charge, tell him that he is part of a project that can put someone in another person's consciousness during the last 8 minutes of their life. Stevens then asks why he cannot just stop the bomb. He is told that he is not going back in time but placed in the moment so he can find out who the bomber is and if there are any other targets. On the side, Stevens finds himself falling for the woman traveling with him while he is still in the other man's consciousness."
+      },
+      {
+        "id": 4,
+        "name": "Limitless",
+        "year": 2011,
+        "description": "With the help of a mysterious pill that enables the user to access 100 percent of his brain abilities, a struggling writer becomes a financial wizard, but it also puts him in a new world with lots of dangers.",
+        "length": 105,
+        "cover": "/images/movies/limitless.jpg",
+        "rating": 7.4,
+        "storyLine": "An action-thriller about a writer who takes an experimental drug that allows him to use 100 percent of his mind. As one man evolves into the perfect version of himself, forces more corrupt than he can imagine mark him for assassination. Out-of-work writer Eddie Morra's (Cooper) rejection by girlfriend Lindy (Abbie Cornish) confirms his belief that he has zero future. That all vanishes the day an old friend introduces Eddie to NZT, a designer pharmaceutical that makes him laser focused and more confident than any man alive. Now on an NZT-fueled odyssey, everything Eddie's read, heard or seen is instantly organized and available to him. As the former nobody rises to the top of the financial world, he draws the attention of business mogul Carl Van Loon (De Niro), who sees this enhanced version of Eddie as the tool to make billions. But brutal side effects jeopardize his meteoric ascent. With a dwindling stash and hit men who will eliminate him to get the NZT, Eddie must stay wired long enough to elude capture and fulfill his destiny. If he can't, he will become just another victim who thought he'd found invincibility in a bottle."
+      },
+      {
+        "id": 5,
+        "name": "Shooter",
+        "year": 2007,
+        "description": "A marksman living in exile is coaxed back into action after learning of a plot to kill the President. Ultimately double-crossed and framed for the attempt, he goes on the run to find the real killer and the reason he was set up.",
+        "length": 124,
+        "cover": "/images/movies/shooter.jpg",
+        "rating": 7.2,
+        "storyLine": "Bob Lee Swagger, one of the world's great marksmen and the son of a Congressional Medal of Honoree, is a loner living in the Rockies. He's left the military, having been hung out to dry in a secret Ethiopian mission a few years before, when he's recruited by a lisping colonel to help find a way that the President of the US might be assassinated in one of three cities in the next two weeks. He does his work, but the shot is fired notwithstanding and Bob Lee is quickly the fall guy: wounded and hunted by thousands, he goes to ground and, aided by two unlikely allies, searches for the truth and for those who double-crossed him. All roads lead back to Ethiopia."
+      },
+      {
+        "id": 6,
+        "name": "Swordfish",
+        "year": 2001,
+        "description": "A secretive renegade counter-terrorist co-opts the world's greatest hacker (who is trying to stay clean) to steal billions in US Government dirty money.",
+        "length": 99,
+        "cover": "/images/movies/swordfish.jpg",
+        "rating": 6.5,
+        "storyLine": "When the DEA shut down its dummy corporation operation codenamed SWORDFISH in 1986, they had generated $400 million which they let sit around; fifteen years of compound interest has swelled it to $9.5 billion. A covert counter-terrorist unit called Black Cell, headed by the duplicitious and suave Gabriel Shear, wants the money to help finance their raise-the-stakes vengeance war against international terrorism, but it's all locked away behind super-encryption. He brings in convicted hacker Stanley Jobson, who only wants to see his daughter Holly again but can't afford the legal fees, to slice into the government mainframes and get the money."
+      },
+      {
+        "id": 7,
+        "name": "Oblivion",
+        "year": 2013,
+        "description": "A veteran assigned to extract Earth's remaining resources begins to question what he knows about his mission and himself.",
+        "length": 124,
+        "cover": "/images/movies/oblivion.jpg",
+        "rating": 7.0,
+        "storyLine": "One of the few remaining drone repairmen assigned to Earth, its surface devastated after decades of war with the alien Scavs, discovers a crashed spacecraft with contents that bring into question everything he believed about the war, and may even put the fate of mankind in his hands."
+      },
+      {
+        "id": 8,
+        "name": "I, Robot",
+        "year": 2004,
+        "description": "In 2035 a technophobic cop investigates a crime that may have been perpetrated by a robot, which leads to a larger threat to humanity.",
+        "length": 115,
+        "cover": "/images/movies/iRobot.jpg",
+        "rating": 7.1,
+        "storyLine": "Set in a future Earth (2035 A.D.) where robots are common assistants and workers for their human owners, this is the story of \"robotophobic\" Chicago Police Detective Del Spooner's investigation into the murder of Dr. Alfred Lanning, who works at U.S. Robotics, in which a robot, Sonny , appears to be implicated, even though that would mean the robot had violated the Three Laws of Robotics, which is apparently impossible. It seems impossible because.. if robots can break those laws, there's nothing to stop them from taking over the world, as humans have grown to become completely dependent upon their robots. Or maybe... they already have? Aiding Spooner in his investigation is a psychologist, Dr. Susan Calvin, who specializes in the psyches of robots."
+      },
+      {
+        "id": 9,
+        "name": "Iron man",
+        "year": 2008,
+        "description": "After being held captive in an Afghan cave, an industrialist creates a unique weaponized suit of armor to fight evil.",
+        "length": 126,
+        "cover": "/images/movies/ironMan.jpg",
+        "rating": 7.9,
+        "storyLine": "Tony Stark. Genius, billionaire, playboy, philanthropist. Son of legendary inventor and weapons contractor Howard Stark. When Tony Stark is assigned to give a weapons presentation to an Iraqi unit led by Lt. Col. James Rhodes, he's given a ride on enemy lines. That ride ends badly when Stark's Humvee that he's riding in is attacked by enemy combatants. He survives - barely - with a chest full of shrapnel and a car battery attached to his heart. In order to survive he comes up with a way to miniaturize the battery and figures out that the battery can power something else. Thus Iron Man is born. He uses the primitive device to escape from the cave in Iraq. Once back home, he then begins work on perfecting the Iron Man suit. But the man who was put in charge of Stark Industries has plans of his own to take over Tony's technology for other matters."
+      },
+      {
+        "id": 10,
+        "name": "Casino Royale",
+        "year": 2006,
+        "description": "Armed with a licence to kill, Secret Agent James Bond sets out on his first mission as 007 and must defeat a weapons dealer in a high stakes game of poker at Casino Royale, but things are not what they seem.",
+        "length": 124,
+        "cover": "/images/movies/casinoRoyale.jpg",
+        "rating": 8.0,
+        "storyLine": "James Bond goes on his first ever mission as a 00. Le Chiffre is a banker to the world's terrorists. He is participating in a poker game at Montenegro, where he must win back his money, in order to stay safe among the terrorist market. The boss of MI6, known simply as M sends Bond, along with Vesper Lynd to attend this game and prevent Le Chiffre from winning. Bond, using help from Felix Leiter, Mathis and having Vesper pose as his partner, enters the most important poker game in his already dangerous career. But if Bond defeats Le Chiffre, will he and Vesper Lynd remain safe?"
+      },
+      {
+        "id": 11,
+        "name": "Quantum of Solace",
+        "year": 2008,
+        "description": "James Bond descends into mystery as he tries to stop a mysterious organization from eliminating a country's most valuable resource. All the while, he still tries to seek revenge over the death of his love.",
+        "length": 106,
+        "cover": "/images/movies/quantumOfSolace.jpg",
+        "rating": 6.7,
+        "storyLine": "Is there solace in revenge? Bond and \"M\" sniff a shadowy international network of power and corruption reaping billions. As Bond pursues the agents of an assassination attempt on \"M\", all roads lead to Dominic Greene, a world-renowned developer of green technology. Greene, a nasty piece of work, is intent on securing a barren area of Bolivia in exchange for assisting a strongman stage a coup there. The CIA looks the other way, and only Bond, with help from a retired spy and from a mysterious beauty, stands in Greene's way. \"M\" wonders if she can trust Bond, or if vengeance possesses him. Beyond that, can anyone drawn to Bond live to tell the tale?"
+      },
+      {
+        "id": 12,
+        "name": "Skyfall",
+        "year": 2012,
+        "description": "Bond's loyalty to M is tested when her past comes back to haunt her. Whilst MI6 comes under attack, 007 must track down and destroy the threat, no matter how personal the cost.",
+        "length": 143,
+        "cover": "/images/movies/skyfall.jpg",
+        "rating": 6.7,
+        "storyLine": "When Bond's latest assignment goes gravely wrong and agents around the world are exposed, MI6 is attacked forcing M to relocate the agency. These events cause her authority and position to be challenged by Gareth Mallory (Ralph Fiennes), the new Chairman of the Intelligence and Security Committee. With MI6 now compromised from both inside and out, M is left with one ally she can trust: Bond. 007 takes to the shadows - aided only by field agent, Eve (Naomie Harris) - following a trail to the mysterious Silva (Javier Bardem), whose lethal and hidden motives have yet to reveal themselves."
+      }
+    ],
+    "associations": [
+      {
+        "alias": "genres",
+        "relations": [
+          {
+            "id": 1,
+            "items": [1, 2, 3]
+          },
+          {
+            "id": 2,
+            "items": [4, 5, 3]
+          },
+          {
+            "id": 3,
+            "items": [2, 5, 3]
+          },
+          {
+            "id": 4,
+            "items": [2, 5, 3]
+          },
+          {
+            "id": 5,
+            "items": [1, 4, 6]
+          },
+          {
+            "id": 6,
+            "items": [4, 1, 3]
+          },
+          {
+            "id": 7,
+            "items": [4, 7, 2]
+          },
+          {
+            "id": 8,
+            "items": [4, 2, 5]
+          },
+          {
+            "id": 9,
+            "items": [4, 7, 5]
+          },
+          {
+            "id": 10,
+            "items": [4, 7, 3]
+          },
+          {
+            "id": 11,
+            "items": [4, 7]
+          },
+          {
+            "id": 12,
+            "items": [4, 7, 3]
+          }
+        ]
+      }
+    ]
+  }
+]

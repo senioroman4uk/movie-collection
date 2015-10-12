@@ -1,0 +1,98 @@
+body {
+  /*background: url("/images/background2.jpg");*/
+}
+
+/*BEGIN: Header styling*/
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar-inverse {
+  font-family: "Open Sans", "sans-serif";
+  padding: 10px 0 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.118);
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: #4f82e9;
+}
+
+.navbar-inverse .navbar-nav > .active {
+  color: #4f82e9
+}
+/*END: Header styling*/
+
+/*BEGIN: Footer styling*/
+footer {
+  background-color: #222;
+  color: #FFFFFF;
+  padding: 10px 0 10px;
+}
+
+.with-border {
+  border-bottom: 1px solid #4f82e9;
+}
+/*END: Footer styling*/
+
+.delimiter {
+  background-color: #f6f6f6;
+  padding: 15px 0 0 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.118);
+  margin-bottom: 30px;
+}
+
+.left-30 {
+  margin-left: 30px;
+}
+
+.top-30 {
+  margin-top: 30px;
+}
+
+.bottom-30 {
+  margin-bottom: 30px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.tooltip.right.tooltip-success >  .tooltip-arrow {
+  border-right-color: #5cb85c;
+}
+
+.tooltip-success > .tooltip-inner {
+  background-color: #5cb85c;
+}
+
+.tooltip.right.tooltip-danger >  .tooltip-arrow {
+  border-right-color: #d9534f;
+}
+
+.tooltip-danger > .tooltip-inner {
+  background-color: #d9534f;
+}
+
+.white-row {
+  background-color: #FFFFFF
+}
+
+.padding-top-15 {
+  padding-top: 15px;
+}
+
+.padding-bottom-15 {
+  padding-bottom: 15px;
+}
+
+
+
+/*body { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8yOS8xMiKqq3kAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABHklEQVRIib2Vyw6EIAxFW5idr///Qx9sfG3pLEyJ3tAwi5EmBqRo7vHawiEEERHS6x7MTMxMVv6+z3tPMUYSkfTM/R0fEaG2bbMv+Gc4nZzn+dN4HAcREa3r+hi3bcuu68jLskhVIlW073tWaYlQ9+F9IpqmSfq+fwskhdO/AwmUTJXrOuaRQNeRkOd5lq7rXmS5InmERKoER/QMvUAPlZDHcZRhGN4CSeGY+aHMqgcks5RrHv/eeh455x5KrMq2yHQdibDO6ncG/KZWL7M8xDyS1/MIO0NJqdULLS81X6/X6aR0nqBSJcPeZnlZrzN477NKURn2Nus8sjzmEII0TfMiyxUuxphVWjpJkbx0btUnshRihVv70Bv8ItXq6Asoi/ZiCbU6YgAAAABJRU5ErkJggg==);}*/
+.error-template {padding: 40px 15px;text-align: center;}
+.error-actions {margin-top:15px;margin-bottom:15px;}
+.error-actions .btn { margin-right:10px; }

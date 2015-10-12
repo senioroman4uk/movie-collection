@@ -1,0 +1,26 @@
+<div class="col-md-3">
+  <img class="img-rounded img-responsive" src="<%- actor.cover %>">
+</div>
+<div class="col-md-6">
+  <h1>
+    <%- actor.getName() %>
+  </h1>
+  <p>
+
+  </p>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="<% actor.rating %>"
+         aria-valuemin="0" aria-valuemax="10" style="width: 60%;">
+    </div>
+  </div>
+  <p>
+    <%- actor.generalInfo %>
+    <br>
+    <br>
+    Born: <%- actor.birthName + ' ' + utilService.formatDate(actor.birthDate) %> in <%- actor.birthPlace %>
+  </p>
+  <% if (typeof(hideReadMore) === 'undefined' || !hideReadMore) {%>
+  <a class="btn btn-large btn-primary" href="/actors/<%- actor.id %>">Read more</a>
+  <% } %>
+  <span class="pull-right"> Created at: <%- utilService.formatDate(actor.createdAt) %></span>
+</div>

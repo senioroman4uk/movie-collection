@@ -1,0 +1,35 @@
+[
+  {
+    "model": "Genre",
+    "items": [
+      {
+        "id": 1,
+        "name": "Crime"
+      },
+      {
+        "id": 2,
+        "name": "Mystery"
+      },
+      {
+        "id": 3,
+        "name": "Thriller"
+      },
+      {
+        "id": 4,
+        "name": "Action"
+      },
+      {
+        "id": 5,
+        "name": "Sci-Fi"
+      },
+      {
+        "id": 6,
+        "name": "Drama"
+      },
+      {
+        "id": 7,
+        "name": "Advanture"
+      }
+    ]
+  }
+]

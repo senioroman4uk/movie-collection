@@ -1,0 +1,63 @@
+[
+  {
+    "model": "Page",
+    "items": [
+      {
+        "id": 1,
+        "name": "News",
+        "link": "/news",
+        "order": 1,
+        "showInMenu": 0,
+        "route": "null"
+      },
+      {
+        "id": 2,
+        "name": "Movies",
+        "link": "/movies",
+        "order": 2,
+        "route": "get /movies: MovieController.find"
+      },
+      {
+        "id": 3,
+        "name": "Actors",
+        "link": "/actors",
+        "order": 3,
+        "showInMenu": 1,
+        "route": "get /actors: ActorController.find"
+      },
+      {
+        "id": 4,
+        "name": "Users",
+        "link": "/user",
+        "order": 4,
+        "showInMenu": 0,
+        "route": "null"
+      },
+      {
+        "id": 5,
+        "name": "Get random movie",
+        "link": "/random",
+        "order": 5,
+        "showInMenu": 1,
+        "route": "get /random: MovieController.random"
+      },
+      {
+        "id": 6,
+        "name": "Contact Us",
+        "link": "/contact",
+        "order": 6,
+        "showInMenu": 1,
+        "route": "get /contact: PageController.contact"
+
+      },
+      {
+        "id": 7,
+        "name": "Messages",
+        "link": "/messages",
+        "order": 7,
+        "showInMenu": 0,
+        "route": "get /messages: Contact.find"
+      }
+    ]
+  }
+]

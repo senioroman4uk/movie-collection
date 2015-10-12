@@ -1,0 +1,26 @@
+  <div class="col-md-3">
+    <img class="img-rounded img-responsive" src="<%- movie.cover %>">
+  </div>
+  <div class="col-md-6">
+    <h1>
+      <%- movie.name %>
+      (<a href="/movies?year=<%- movie.year %>"><%- movie.year %></a>)
+      <!--<a href='/movie?where={"year": <%- movie.year %>}'>(<%- movie.year %>)</a>-->
+    </h1>
+    <p>
+      <%- movie.length %> min |
+      <% for (var i = 0; i < movie.genres.length; i++) { %>
+        <a href="/movies?genre=<%- movie.genres[i].id %>"><%- movie.genres[i].name %></a><%- i + 1 !== movie.genres.length ? ',' : ''%>
+      <% } %>
+    </p>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="<% movie.rating %>"
+           aria-valuemin="0" aria-valuemax="10" style="width: 60%;">
+      </div>
+    </div>
+    <p><%- movie.description %></p>
+    <% if (typeof(hideReadMore) === 'undefined' || !hideReadMore) {%>
+    <a class="btn btn-large btn-primary" href="/movies/<%- movie.id %>">Read more</a>
+    <% }%>
+    <span class="pull-right"> Created at: <%- utilService.formatDate(movie.createdAt) %></span>
+  </div>

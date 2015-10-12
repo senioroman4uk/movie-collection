@@ -1,0 +1,24 @@
+<div class="row padding-top-15 padding-bottom-15">
+  <%- partial('../partials/movie') %>
+</div>
+<div class="row padding-top-15 padding-bottom-15">
+  <div class="col-md-9">
+    <h2>Storyline:</h2>
+    <p><%- movie.storyLine %></p>
+    <% if (movie.actors && movie.actors.length > 0) { %>
+    <h2>Cast</h2>
+    <table class="table table-striped table-responsive table-hover">
+      <% for(var i = 0; i < movie.actors.length; i++) { %>
+        <tr>
+          <td class="col-md-1">
+            <img class="img-rounded" src="<%- movie.actors[i].cover %>" width="40">
+          </td>
+          <td class="col-md-3"><%- movie.actors[i].getName() %></td>
+          <td></td>
+          <td></td>
+        </tr>
+      <% } %>
+    </table>
+    <% } %>
+  </div>
+</div>

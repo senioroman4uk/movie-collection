@@ -1,0 +1,23 @@
+<header>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/movie">Your movie collection</a>
+      </div>
+      <div class="navigation">
+        <ul class="nav navbar-nav navbar-right">
+          <%
+            var _pages = sails.config.pages;
+            for(var i = 0; i < _pages.length; i++) {
+              if (_pages[i].showInMenu === 0)
+                continue;
+          %>
+              <li><a href="<%- _pages[i].link %>"><%- _pages[i].name %></a></li>
+            <% } %>
+          <li><a href="#"><i class="glyphicon glyphicon-user"></i> </a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-search"></i> </a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
