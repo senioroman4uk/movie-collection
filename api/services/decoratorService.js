@@ -24,17 +24,16 @@ function getPagesDecorator(action) {
         var routes = pages[i].route.split(': ');
         if (routes.length !== 2) {
           if (routes[0] !== 'null') {
-            console.log(routes[0]);
             console.error('getPagesDecorator Error, wrong route format');
           }
           continue;
         }
-        //reloading routes
         sails.config.routes[routes[0]] = routes[1];
-        sails.router.flush();
-        sails.hooks.blueprints.bindShadowRoutes();
-        next(null);
       }
+      //reloading routes
+      sails.router.flush();
+      sails.hooks.blueprints.bindShadowRoutes();
+      next(null);
     });
 
     async.waterfall(jobs, function (err) {
