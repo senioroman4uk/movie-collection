@@ -20,8 +20,13 @@ var findHandler = function (req, res) {
 
 module.exports = {
   create: function(req, res) {
-    var data = {email: req.param('email', ''), name: req.param('name', ''), message: req.param('message', ''),
-                ip: req.ip.replace('::ffff:', '')};
+    var data = {
+      email: req.param('email', ''),
+      name: req.param('name', ''),
+      message: req.param('message', ''),
+      ip: req.ip.replace('::ffff:', '')
+    };
+
     Contact.create(data, creationCallback);
 
     function creationCallback(error, data) {

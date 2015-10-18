@@ -14,7 +14,12 @@
           %>
               <li><a href="<%- _pages[i].link %>"><%- _pages[i].name %></a></li>
             <% } %>
-          <li><a href="#"><i class="glyphicon glyphicon-user"></i> </a></li>
+          <% if (req.session.authenticated && req.session.user) { %>
+            <li><a href="/logout"><i class="glyphicon glyphicon-off"></i></a></li>
+          <% }
+             else { %>
+          <li><a href="/login"><i class="glyphicon glyphicon-user"></i></a></li>
+          <% }%>
           <li><a href="#"><i class="glyphicon glyphicon-search"></i> </a></li>
         </ul>
       </div>

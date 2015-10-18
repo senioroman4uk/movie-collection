@@ -38,6 +38,21 @@ module.exports.routes = {
   'post /subscribe': {
     controller: 'Page',
     action: 'subscribe'
+  },
+
+  'get /login': {
+    controller: 'Session',
+    action: 'new'
+  },
+
+  'get /logout': {
+    controller: 'Session',
+    action: 'destroy'
+  },
+
+  'get /signup': {
+    controller: 'User',
+    action: 'new'
   }
 
   /***************************************************************************

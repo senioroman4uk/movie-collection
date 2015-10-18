@@ -1,0 +1,7 @@
+<% for(var prop in flash)
+for (var i = 0; i < flash[prop].length; i++) {
+%>
+<div class="alert alert-<%- prop %>">
+  <%- flash[prop][i] %>
+</div>
+<% } %>
