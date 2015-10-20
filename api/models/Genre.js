@@ -13,6 +13,7 @@ module.exports = {
     name: {
       type: 'string',
       required: true,
+      size: 255,
       maxLength: 255
     },
 

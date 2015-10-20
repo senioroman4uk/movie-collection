@@ -53,6 +53,26 @@ module.exports.routes = {
   'get /signup': {
     controller: 'User',
     action: 'new'
+  },
+
+  'get /dashboard': {
+    controller: 'Dashboard',
+    action: 'index'
+  },
+
+  'get /dashboard/genres': {
+    controller: 'Dashboard',
+    action: 'getGenres'
+  },
+
+  'get /dashboard/movies': {
+    controller: 'Dashboard',
+    action: 'getMovies'
+  },
+
+  'post /movies/update': {
+    controller: 'Movie',
+    action: 'update'
   }
 
   /***************************************************************************

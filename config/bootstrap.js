@@ -14,7 +14,7 @@ var assync = require('async');
 module.exports.bootstrap = function(cb) {
 
   var jobs = [];
-  jobs.push(processFixtures);
+  //jobs.push(processFixtures);
   jobs.push(getPages);
 
   assync.series(jobs, cb);

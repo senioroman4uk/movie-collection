@@ -133,5 +133,23 @@ module.exports = {
   //Getting information about single random movie
   random: decoratorService.getPagesDecorator(function (req, res) {
     Movie.query('SELECT id FROM movie ORDER BY RAND() LIMIT 1', randomHandler(req, res));
-  })
+  }),
+
+  update: function (req, res) {
+    //req.file('cover').upload({
+    //  maxBytes: 10000000
+    //}, function whenDone(err, uploadedFiles) {
+    //  if (err)
+    //    return res.serverError(err);
+    //});
+    var id = req.param('id');
+    var data = req.params.all();
+    delete data['id'];
+
+    Movie.update([id], data).exec(function(err, data) {
+      if (err)
+        return res.badRequest(err);
+      return res.json(data);
+    });
+  }
 };

@@ -30,6 +30,14 @@ module.exports.policies = {
   ContactController: {
     '*': 'flash',
     'find': 'sessionAuth'
+  },
+
+  DashboardController: {
+    '*': ['flash', 'sessionAdmin']
+  },
+
+  GenreController: {
+    '*': ['sessionAdmin']
   }
 
   /***************************************************************************

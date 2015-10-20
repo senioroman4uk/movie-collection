@@ -1,0 +1,73 @@
+<h3>Manage movies</h3>
+<table id="movies" data-toggle="table" data-url="/dashboard/movies" data-pagination="true"
+       data-side-pagination="server" data-checkbox-header="true" data-sortable="true">
+  <thead>
+  <tr>
+    <th data-field="state" data-checkbox="true"></th>
+    <th data-field="id" data-sortable="true">id</th>
+    <th data-field="name" data-sortable="true">name</th>
+    <th data-field="year" data-sortable="true">year</th>
+    <th data-field="length" data-sortable="true">length</th>
+    <th data-field="rating" data-sortable="true">rating</th>
+    <!--<th data-field="cover">cover</th>-->
+  </tr>
+  </thead>
+</table>
+
+<div class="modal fade" id="modal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit movie</h4>
+      </div>
+      <div class="modal-body">
+        <form id="movieForm" method="post" enctype="multipart/form-data" action="/movies/update">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="hidden" placeholder="Enter name of movie" name="id" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" placeholder="Enter name of movie" name="name" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Year</label>
+                <input type="number" placeholder="Enter year of movie" name="year" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Length</label>
+                <input type="number" placeholder="Enter length of movie" name="length" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Rating</label>
+                <input type="number" placeholder="Enter length of movie" name="rating" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" name="description"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Story line</label>
+                <textarea class="form-control" name="storyLine"></textarea>
+              </div>
+              <div class="form-group">
+                <img id="cover" src="">
+                <div class="clearfix"></div>
+                <label>Cover</label>
+                <input type="file" value="" name="cover">
+              </div>
+            </div>
+          </div>
+          <div class="for-errors"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="save" type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="/myjs/moviesController.js"></script>
