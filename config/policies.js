@@ -26,18 +26,14 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': 'flash',
-  ContactController: {
-    '*': 'flash',
-    'find': 'sessionAuth'
-  },
+  '*': ['flash', 'pages'],
 
   DashboardController: {
-    '*': ['flash', 'sessionAdmin']
+    '*': ['flash', 'pages', 'sessionAdmin']
   },
 
   GenreController: {
-    '*': ['sessionAdmin']
+    '*': ['flash', 'pages', 'sessionAdmin']
   }
 
   /***************************************************************************

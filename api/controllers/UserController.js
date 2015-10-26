@@ -9,6 +9,9 @@ var crypto = require('crypto');
 
 module.exports = {
   new: function(req, res) {
+    //if already logged in redirect to home page
+    if (!!req.session.user !== false)
+      return res.redirect('/');
     return res.view({page: 'sign up'})
   },
 
@@ -37,7 +40,6 @@ module.exports = {
 
     User.create(data, function(error, user) {
       if (error) {
-        //todo: validation errors to flash
         if (typeof(error.Errors) !== 'undefined') {
           for (var name in error.Errors) {
             req.session.flash.danger.push(error.Errors[name][0].message);
@@ -50,7 +52,7 @@ module.exports = {
         }
       }
       else {
-        sessionService.logIn(req, res, user, function(req, res) {
+          sessionService.logIn(req, res, user, function(req, res) {
           req.session.flash.success.push("You have registered");
           return res.redirect('/');
         });

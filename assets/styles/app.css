@@ -96,3 +96,17 @@ footer {
 .error-template {padding: 40px 15px;text-align: center;}
 .error-actions {margin-top:15px;margin-bottom:15px;}
 .error-actions .btn { margin-right:10px; }
+
+
+.select2-container, .select2-drop, .select2-search, .select2-search input {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+}
+.select2-container .select2-choice {
+  height: 34px;
+}
+.select2-container .select2-choice .select2-arrow {
+  display: none;
+}

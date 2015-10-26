@@ -8,8 +8,9 @@
         <ul class="nav navbar-nav navbar-right">
           <%
             var _pages = sails.config.pages;
+            var access = req.session.user ? (req.session.user.access || 0) : 0;
             for(var i = 0; i < _pages.length; i++) {
-              if (_pages[i].showInMenu === 0)
+              if (_pages[i].showInMenu === 0 || _pages[i].access > access)
                 continue;
           %>
               <li><a href="<%- _pages[i].link %>"><%- _pages[i].name %></a></li>

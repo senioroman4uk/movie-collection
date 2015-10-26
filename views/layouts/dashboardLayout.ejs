@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="/styles/app.css">
   <link rel="stylesheet" href="/styles/importer.css">
   <!--STYLES END-->
-  <link rel="stylesheet" href="/dashboardStyles/styles.css">
-  <script src="/bower_components/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css"></script>
+  <link rel="stylesheet" href="/myStyles/dashboard.css">
+  <link rel="stylesheet" href="/bower_components/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css">
   <link rel="stylesheet" href="/bower_components/bootstrap-table/dist/bootstrap-table.css">
-
+  <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.css">
   <!--SCRIPTS-->
   <script src="/bower_components/jquery/dist/jquery.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -20,6 +20,8 @@
   <script src="/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
   <script src="/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
   <script src="/bower_components/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.js"></script>
+  <script src="/bower_components/select2/dist/js/select2.js"></script>
+  <script type="text/javascript">$.fn.editable.defaults.mode = 'inline';</script>
 </head>
 <body>
   <div class="container">
@@ -42,18 +44,17 @@
       <div class="row">
         <div class="col-sm-3">
           <!-- Left column -->
-          <a href="#"><strong><i class="glyphicon glyphicon-wrench"></i> Tools</strong></a>
-
+          <a href="/dashboard"><strong><i class="glyphicon glyphicon-wrench"></i> Tools</strong></a>
           <hr>
 
           <ul class="nav nav-stacked">
             <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">Settings <i class="glyphicon glyphicon-chevron-down"></i></a>
               <ul class="nav nav-stacked collapse in" id="userMenu">
-                <li class="active"> <a href="/dashboard/movies"><i class="glyphicon glyphicon-film"></i> Movies</a></li>
-                <li> <a href="#"><i class="glyphicon glyphicon-star"></i> Actors</a></li>
+                <li> <a href="/dashboard/movies"><i class="glyphicon glyphicon-film"></i> Movies</a></li>
+                <li> <a href="/dashboard/actors"><i class="glyphicon glyphicon-star"></i> Actors</a></li>
                 <li> <a href="/dashboard/genres"><i class="glyphicon glyphicon-tags"></i> Genres</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge badge-info">4</span></a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-bookmark"></i> Pages</a></li>
+                <li><a href="/dashboard/messages"><i class="glyphicon glyphicon-envelope"></i> Messages</a></li>
+                <li><a href="/dashboard/pages"><i class="glyphicon glyphicon-bookmark"></i> Pages</a></li>
                 <!--<li><a href="#"><i class="glyphicon glyphicon-user"></i> Users</a></li>-->
               </ul>
             </li>

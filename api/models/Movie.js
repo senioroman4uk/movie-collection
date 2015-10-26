@@ -53,6 +53,31 @@ module.exports = {
       type: 'text',
       defaultsTo: ''
     }
+  },
+
+  validationMessages: {
+    name: {
+      required: 'Name is required',
+      maxLength: 'Too long value, maximum is 255'
+    },
+
+    year: {
+      required: 'Year is required',
+      integer: 'Year mast be an integer'
+    },
+
+    description: {
+      required: 'Description is required',
+      maxLength: 'Max length for this field is 660 symbols'
+    },
+
+    length: {
+      required: 'Length is required',
+      integer: 'Length mast be an integer'
+    },
+    rating: {
+      float: 'Rating must be a float'
+    }
   }
 };
 

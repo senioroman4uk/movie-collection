@@ -13,18 +13,25 @@ module.exports = function (req, res, next) {
 
   if (req.session.authenticated && req.session.user != null) {
     User.findOne(req.session.user.id).exec(function (err, user) {
-      if (err || !user)
-        return res.redirect('/login');
-      else {
-        var hash = crypto.createHash('sha256');
-        hash.update(user.password + req.ip);
+      if (err) {
+        console.log(err);
+        return res.serverError();
+      }
 
-        if (user.token === hash.digest('hex'))
-          next();
-        else {
-          sessionService.logOut(req);
-          return res.redirect('/login');
-        }
+      //user not found
+      if (!!user === false) {
+        sessionService.logOut(req);
+        return res.redirect('/login');
+      }
+
+      var hash = crypto.createHash('sha256');
+      hash.update(user.password + req.ip);
+
+      if (user.token === hash.digest('hex'))
+        next();
+      else {
+        sessionService.logOut(req);
+        return res.redirect('/login');
       }
     });
   }

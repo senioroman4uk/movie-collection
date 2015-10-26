@@ -25,6 +25,10 @@ module.exports = {
       defaultsTo: 1
     },
 
+    access: {
+      model: 'role'
+    },
+
     link: {
       type: 'string',
       required: true,

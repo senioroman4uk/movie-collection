@@ -30,8 +30,8 @@ module.exports = {
       type: 'string',
       size: 256
     },
-    role: {
-      model: 'role',
+    access: {
+      model: 'role'
     },
     token: {
       type: 'string',

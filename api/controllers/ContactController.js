@@ -34,7 +34,7 @@ module.exports = {
     }
   },
 
-  find: decoratorService.getPagesDecorator(function (req, res) {
+  find:function (req, res) {
     var page = 1, limit = req.param('limit', 10);
 
     if (req.xhr && req.wantsJSON && req.param('page'))
@@ -43,5 +43,5 @@ module.exports = {
     Contact.find()
       .paginate({page: page, limit: limit})
       .exec(findHandler(req, res));
-  })
+  }
 };

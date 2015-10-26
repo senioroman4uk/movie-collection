@@ -1,11 +1,10 @@
 /**
- * Created by Vladyslav on 18.10.2015.
+ * Created by Vladyslav on 26.10.2015.
  */
-
-var table = $('#movies');
+var table = $('#actors');
 var editForm = $('#editForm');
-var updateAction = '/movies/update';
-var createAction = '/movies/create';
+var updateAction = '/actors/update';
+var createAction = '/actors/create';
 
 var errorCallback = function (row, field) {
   return function (xhr) {
@@ -85,26 +84,20 @@ var showModal = function ($el, row) {
         }
       }
 
-      $('#cover').attr('src',  '/images/movies/' + data.cover);
+      $('#cover').attr('src',  '/images/actors/' + data.cover);
       editForm.attr('action', updateAction);
-      $('[name="actors"]').find('option').remove();
+      $('[name="movies"]').find('option').remove();
 
-      var selectedGenres = [];
-      data.genres.forEach(function(genre) {
-        selectedGenres.push(genre.id);
-      });
-
-      $('[name="genres"]').val(selectedGenres);
-      var selectedActors = [];
-      data.actors.forEach(function(actor) {
-        selectedActors.push(actor.id);
-        $('[name="actors"]').append('<option value="' + actor.id + '">' + actor.firstName + ' ' + actor.lastName
+      var selected = [];
+      data.movies.forEach(function(element) {
+        selected.push(element.id);
+        $('[name="movies"]').append('<option value="' + element.id + '">' + element.name
           + '</option>')
       });
-      $('[name="actors"]').val(selectedActors).trigger("change");
+      $('[name="movies"]').val(selected).trigger("change");
     }
     else {
-      $('[name="actors"]').val([]).trigger("change");
+      $('[name="movies"]').val([]).trigger("change");
       editForm.attr('action', createAction);
     }
     $('#modal').modal('show');
@@ -133,9 +126,9 @@ $(document).ready(function () {
   $('#add').click(addHandler);
   $('#save').click(saveHandler);
   $('#delete').click(deleteHandler);
-  $('[name="actors"]').select2({
+  $('[name="movies"]').select2({
     ajax: {
-      url: "/dashboard/actors/select",
+      url: "/dashboard/movies/select",
       cache: "true",
       dataType: 'json',
       width: 'resolve'

@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var path = require('path');
+
 var movieRender = function (movie) {
   return function (next) {
     sails.hooks.views.render('partials/movie', {movie: movie, layout: null}, function (err, html) {
@@ -97,17 +99,17 @@ var findByGenreHandler = function (req, res) {
 };
 
 module.exports = {
-  find: decoratorService.getPagesDecorator(function (req, res) {
+  find: function (req, res) {
     var page = 1, limit = req.param('limit', 10);
     var where = {};
-    var params = ['year'];
+    var allowedParameters = ['year'];
 
     if (req.xhr && req.wantsJSON && req.param('page'))
       page = req.param('page');
 
-    for (var i = 0; i < params.length; i++)
-      if (req.param(params[i]))
-        where[params[i]] = req.param(params[i]);
+    for (var i = 0; i < allowedParameters.length; i++)
+      if (req.param(allowedParameters[i]))
+        where[allowedParameters[i]] = req.param(allowedParameters[i]);
 
     if (req.param('genre')) {
       var sql = 'SELECT movie.id ' +
@@ -121,7 +123,7 @@ module.exports = {
         .paginate({page: page, limit: limit})
         .exec(findHandler(req, res));
     }
-  }),
+  },
 
   //Getting information about single movie
   findOne: decoratorService.getPagesDecorator(function (req, res) {
@@ -136,20 +138,50 @@ module.exports = {
   }),
 
   update: function (req, res) {
-    //req.file('cover').upload({
-    //  maxBytes: 10000000
-    //}, function whenDone(err, uploadedFiles) {
-    //  if (err)
-    //    return res.serverError(err);
-    //});
-    var id = req.param('id');
-    var data = req.params.all();
-    delete data['id'];
-
-    Movie.update([id], data).exec(function(err, data) {
+    req.file('cover').upload({
+      dirname: '../../assets/images/movies',
+      maxBytes: 10000000
+    }, function whenDone(err, uploadedFiles) {
       if (err)
-        return res.badRequest(err);
-      return res.json(data);
+        return res.negotiate(err);
+
+      var data = req.params.all();
+      var id = data['id'];
+      delete data['id'];
+
+      if (uploadedFiles.length > 0) {
+        data['cover'] = path.basename(uploadedFiles[0].fd);
+      }
+      Movie.update(id, data).exec(function(err, data) {
+        if (err)
+          return res.badRequest(err);
+
+        return res.json(data);
+      });
+    });
+
+  },
+
+  create: function(req, res) {
+    req.file('cover').upload({
+      dirname: '../../assets/images/movies',
+      maxBytes: 10000000
+    }, function whenDone(err, uploadedFiles) {
+      if (err)
+        return res.negotiate(err);
+
+      var data = req.params.all();
+      delete data['id'];
+
+      if (uploadedFiles.length > 0) {
+        data['cover'] = path.basename(uploadedFiles[0].fd);
+      }
+      Movie.create(data).exec(function(err, data) {
+        if (err)
+          return res.badRequest(err);
+
+        return res.json(data);
+      });
     });
   }
 };

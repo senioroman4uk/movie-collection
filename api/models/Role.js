@@ -7,11 +7,16 @@ module.exports = {
   attributes: {
     name: {
       type: 'string',
-      required: true,
-      users: {
-        collection: 'user',
-        via: 'role'
-      }
+      required: true
+    },
+
+    users: {
+      collection: 'user',
+      via: 'access'
+    },
+    pages: {
+      collection: 'page',
+      via: 'access'
     }
   }
 };

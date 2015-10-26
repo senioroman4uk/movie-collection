@@ -36,7 +36,8 @@
 
       biography: {
         type: 'text',
-        required: true
+        required: false,
+        defaultsTo: ''
       },
 
       birthPlace: {

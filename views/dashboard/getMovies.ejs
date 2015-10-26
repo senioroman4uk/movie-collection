@@ -1,15 +1,15 @@
 <h3>Manage movies</h3>
+<button id="add" class="btn btn-default">Add movie</button>
 <table id="movies" data-toggle="table" data-url="/dashboard/movies" data-pagination="true"
        data-side-pagination="server" data-checkbox-header="true" data-sortable="true">
   <thead>
   <tr>
     <th data-field="state" data-checkbox="true"></th>
     <th data-field="id" data-sortable="true">id</th>
-    <th data-field="name" data-sortable="true">name</th>
-    <th data-field="year" data-sortable="true">year</th>
-    <th data-field="length" data-sortable="true">length</th>
-    <th data-field="rating" data-sortable="true">rating</th>
-    <!--<th data-field="cover">cover</th>-->
+    <th data-field="name" data-editable="true" data-sortable="true">name</th>
+    <th data-field="year" data-editable="true" data-sortable="true">year</th>
+    <th data-field="length" data-editable="true" data-sortable="true">length</th>
+    <th data-field="rating" data-editable="true" data-sortable="true">rating</th>
   </tr>
   </thead>
 </table>
@@ -22,10 +22,10 @@
         <h4 class="modal-title">Edit movie</h4>
       </div>
       <div class="modal-body">
-        <form id="movieForm" method="post" enctype="multipart/form-data" action="/movies/update">
+        <form id="editForm" method="post" enctype="multipart/form-data">
           <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="form-group hidden">
                 <input type="hidden" placeholder="Enter name of movie" name="id" class="form-control">
               </div>
               <div class="form-group">
@@ -59,6 +59,20 @@
                 <input type="file" value="" name="cover">
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Genres</label>
+                <select class="form-control" name="genres" multiple="multiple">
+                  <% for(var i = 0; i < genres.length; i++) { %>
+                    <option value="<%- genres[i].id %>"><%- genres[i].name%></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="form-group">
+                  <label>Actors</label>
+                  <select class="form-control" name="actors" data-placeholder="Select actors" multiple="multiple" style="width: 100%"></select>
+              </div>
+            </div>
           </div>
           <div class="for-errors"></div>
         </form>
@@ -70,4 +84,5 @@
     </div>
   </div>
 </div>
+<script type="text/javascript" src="/myjs/baseController.js"></script>
 <script type="text/javascript" src="/myjs/moviesController.js"></script>

@@ -8,14 +8,16 @@
         "link": "/news",
         "order": 1,
         "showInMenu": 0,
-        "route": "null"
+        "route": "null",
+        "access": 0
       },
       {
         "id": 2,
         "name": "Movies",
         "link": "/movies",
         "order": 2,
-        "route": "get /movies: MovieController.find"
+        "route": "get /movies: MovieController.find",
+        "access": 0
       },
       {
         "id": 3,
@@ -23,7 +25,8 @@
         "link": "/actors",
         "order": 3,
         "showInMenu": 1,
-        "route": "get /actors: ActorController.find"
+        "route": "get /actors: ActorController.find",
+        "access": 0
       },
       {
         "id": 4,
@@ -31,7 +34,8 @@
         "link": "/user",
         "order": 4,
         "showInMenu": 0,
-        "route": "null"
+        "route": "null",
+        "access": 3
       },
       {
         "id": 5,
@@ -39,7 +43,8 @@
         "link": "/random",
         "order": 5,
         "showInMenu": 1,
-        "route": "get /random: MovieController.random"
+        "route": "get /random: MovieController.random",
+        "access": 0
       },
       {
         "id": 6,
@@ -47,8 +52,8 @@
         "link": "/contact",
         "order": 6,
         "showInMenu": 1,
-        "route": "get /contact: PageController.contact"
-
+        "route": "get /contact: PageController.contact",
+        "access": 0
       },
       {
         "id": 7,
@@ -56,7 +61,8 @@
         "link": "/messages",
         "order": 7,
         "showInMenu": 0,
-        "route": "get /messages: Contact.find"
+        "route": "get /messages: Contact.find",
+        "access": 3
       }
     ]
   }

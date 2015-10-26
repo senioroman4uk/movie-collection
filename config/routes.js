@@ -70,10 +70,52 @@ module.exports.routes = {
     action: 'getMovies'
   },
 
+  'get /dashboard/pages': {
+    controller: 'Dashboard',
+    action: 'getPages'
+  },
+
+  'get /dashboard/roles': {
+    controller: 'Dashboard',
+    action: 'getRoles'
+  },
+
+  'get /dashboard/actors': {
+    controller: 'Dashboard',
+    action: 'getActors'
+  },
+
+  'get /dashboard/messages': {
+    controller: 'Dashboard',
+    action: 'getMessages'
+  },
+
   'post /movies/update': {
     controller: 'Movie',
     action: 'update'
+  },
+
+  'post /pages/create': {
+    controller: 'Page',
+    action: 'create'
+  },
+
+  'post /pages/update': {
+    controller: 'Page',
+    action: 'update'
+  },
+
+  //#SECTION: routes for select2 control in dashboard
+  'get /dashboard/actors/select': {
+    controller: 'Dashboard',
+    action: 'selectActors'
+  },
+
+  'get /dashboard/movies/select': {
+    controller: 'Dashboard',
+    action: 'selectMovies'
   }
+  //#END SECTION
 
   /***************************************************************************
   *                                                                          *

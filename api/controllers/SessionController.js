@@ -10,6 +10,10 @@ var crypto = require('crypto');
 
 module.exports = {
   new: function (req, res) {
+    //if already logged in redirect to home page
+    if (!!req.session.user !== false)
+      return res.redirect('/');
+
     return res.view({
       page: 'login'
     });
