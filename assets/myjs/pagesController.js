@@ -101,10 +101,10 @@ var deleteHandler = function () {
 
   $.post(destroyAction, {ids: ids}, function (data) {
     var previous = table.bootstrapTable('getData');
-    if (previous.length === data.length)
-      table.bootstrapTable('prevPage');
-    else
+    if (previous.length === 0 || previous.length !== data.length)
       table.bootstrapTable('refresh');
+    else
+      table.bootstrapTable('prevPage');
   }).fail(function () {
     $(elem).tooltipster({
       content: 'Deleting failed',
@@ -156,7 +156,7 @@ $(document).ready(function () {
     table.find('tr').each(function (index, element) {
       deleteTooltip(element);
     });
-    row.access = row.access.id;
+
     delete row['createdAt'];
     delete row['updatedAt'];
     delete row['state'];

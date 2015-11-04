@@ -74,7 +74,6 @@
         var sum = 0.0;
         for (var i = 0; i < this.movies.length; i++)
           sum += movies[i].rating;
-
         return sum / movies.length
       }
     }

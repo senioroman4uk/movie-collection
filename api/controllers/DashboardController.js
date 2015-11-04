@@ -126,8 +126,7 @@ module.exports = {
   },
 
   getMessages: function (req,  res) {
-    console.log('here');
-    if (!req.xhr || !req.wantsJSON) {
+                                                                                                                                                                      if (!req.xhr || !req.wantsJSON) {
       return res.view({layout: '/layouts/dashboardLayout'});
     }
     else {

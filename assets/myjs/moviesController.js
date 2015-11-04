@@ -36,7 +36,7 @@ var saveHandler = function() {
     type: 'POST',
     success: function(data) {
       table.bootstrapTable('refresh');
-      $('#cover').attr('src', '/images/movies/' + (data.length > 0 ? data[0].cover : data.cover));
+      $('#cover').attr('src', '/images/movies/' + (!!data[0] ? data[0].cover : data.cover));
       showModalMessage('success', 'Saved successfully')
     },
     error: function() {
@@ -56,12 +56,14 @@ var deleteHandler = function () {
   for (var i = 0; i < rows.length; i++)
     ids.push(rows[i].id);
 
-  $.post('/genres/destroy', {ids: ids}, function (data) {
+  $.post('/movies/destroy', {id: ids}, function (data) {
     var previous = table.bootstrapTable('getData');
-    if (previous.length === data.length)
-      table.bootstrapTable('prevPage');
-    else
+
+    if (previous.length === 0 || previous.length !== data.length)
       table.bootstrapTable('refresh');
+    else
+      table.bootstrapTable('prevPage');
+
   }).fail(function () {
     $(elem).tooltipster({
       content: 'Deleting failed',
@@ -116,6 +118,7 @@ var clearModal = function() {
   editForm.find('.form-control').not('[type="file"]').val(null);
   $('#cover').attr('src', null);
   removeModalMessage();
+  $('[name="cover"]').val(null);
 };
 
 $(document).ready(function () {
@@ -132,7 +135,6 @@ $(document).ready(function () {
   $('#modal').on('hide.bs.modal', clearModal);
   $('#add').click(addHandler);
   $('#save').click(saveHandler);
-  $('#delete').click(deleteHandler);
   $('[name="actors"]').select2({
     ajax: {
       url: "/dashboard/actors/select",
@@ -141,4 +143,5 @@ $(document).ready(function () {
       width: 'resolve'
     }
   });
+  $('#delete').click(deleteHandler);
 });

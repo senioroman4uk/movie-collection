@@ -44,6 +44,9 @@ module.exports = {
       type: 'string',
       'isip': true,
       required: true
+    },
+    answer: {
+      type: 'string'
     }
   },
   validationMessages: {
@@ -64,6 +67,6 @@ module.exports = {
     ip: {
       'isip' : 'invalid ip format',
       required: 'ip address is required'
-    }
+    },
   }
 };

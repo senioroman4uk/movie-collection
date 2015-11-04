@@ -14,9 +14,9 @@ var creationCallback = function(req, res) {
 };
 
 module.exports = {
-  contact: decoratorService.getPagesDecorator(function (req, res) {
+  contact: function (req, res) {
     return res.view('static/contact', {page: 'Contact'});
-  }),
+  },
 
   subscribe: function subscribe(req, res) {
     var data = {email: req.param('email', '')};

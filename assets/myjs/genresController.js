@@ -45,10 +45,10 @@ var deleteHandler = function () {
 
   $.post('/genres/destroy', {ids: ids}, function (data) {
     var previous = table.bootstrapTable('getData');
-    if (previous.length === data.length)
-      table.bootstrapTable('prevPage');
-    else
+    if (previous.length === 0 || previous.length !== data.length)
       table.bootstrapTable('refresh');
+    else
+      table.bootstrapTable('prevPage');
   }).fail(function () {
     $(elem).tooltipster({
       content: 'Deleting failed',

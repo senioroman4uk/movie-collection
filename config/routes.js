@@ -55,6 +55,11 @@ module.exports.routes = {
     action: 'new'
   },
 
+  'get /contacts/answered': {
+    controller: 'Contact',
+    action: 'findAnswered'
+  },
+
   'get /dashboard': {
     controller: 'Dashboard',
     action: 'index'
@@ -114,8 +119,15 @@ module.exports.routes = {
   'get /dashboard/movies/select': {
     controller: 'Dashboard',
     action: 'selectMovies'
-  }
+  },
   //#END SECTION
+
+  //#SECTION: RSS
+  'get /actors/rss': {
+    controller: 'Actor',
+    action: 'getRss'
+  }
+  //END SECTION
 
   /***************************************************************************
   *                                                                          *

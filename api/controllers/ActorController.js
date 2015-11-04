@@ -6,6 +6,7 @@
  */
 
 var path = require('path');
+var rss = require('node-rss');
 
 var actorRender = function (actor) {
   return function (next) {
@@ -20,7 +21,6 @@ var actorRender = function (actor) {
 function findHandler(req, res) {
   return function(error, actors) {
     var response;
-
     if (error)
       response = res.serverError();
     else if(actors.length === 0)
@@ -61,8 +61,7 @@ function findOneHandler(req, res) {
 
 module.exports = {
   find: function (req, res) {
-    var page = req.param('page', 1), limit = req.param('limit', 1);
-
+    var page = req.param('page', 1), limit = Math.min(req.param('limit', 10), 20);
     Actor.find().paginate({page: page, limit: limit}).exec(findHandler(req, res));
   },
 

@@ -100,7 +100,7 @@ var findByGenreHandler = function (req, res) {
 
 module.exports = {
   find: function (req, res) {
-    var page = 1, limit = req.param('limit', 10);
+    var page = 1, limit = Math.min(req.param('limit', 10), 20);
     var where = {};
     var allowedParameters = ['year'];
 
@@ -152,7 +152,7 @@ module.exports = {
       if (uploadedFiles.length > 0) {
         data['cover'] = path.basename(uploadedFiles[0].fd);
       }
-      Movie.update(id, data).exec(function(err, data) {
+      Movie.update(id, data).exec(function (err, data) {
         if (err)
           return res.badRequest(err);
 
@@ -162,7 +162,7 @@ module.exports = {
 
   },
 
-  create: function(req, res) {
+  create: function (req, res) {
     req.file('cover').upload({
       dirname: '../../assets/images/movies',
       maxBytes: 10000000
@@ -176,12 +176,22 @@ module.exports = {
       if (uploadedFiles.length > 0) {
         data['cover'] = path.basename(uploadedFiles[0].fd);
       }
-      Movie.create(data).exec(function(err, data) {
+      Movie.create(data).exec(function (err, data) {
         if (err)
           return res.badRequest(err);
 
         return res.json(data);
       });
+    });
+  },
+
+  destroy: function (req, res) {
+    var id = req.param('id');
+
+    Movie.destroy(id, function (err, data) {
+      if (err)
+        return res.serverError();
+      return res.json(data);
     });
   }
 };
