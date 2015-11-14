@@ -20,7 +20,7 @@
     </div>
     <p><%- movie.description %></p>
     <% if (typeof(hideReadMore) === 'undefined' || !hideReadMore) {%>
-    <a class="btn btn-large btn-primary" href="/movies/<%- movie.id %>">Read more</a>
+    <a class="btn btn-large btn-primary" href="/movies/<%- movie.link %>">Read more</a>
     <% }%>
     <span class="pull-right"> Created at: <%- utilService.formatDate(movie.createdAt) %></span>
   </div>

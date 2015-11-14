@@ -8,6 +8,12 @@
   module.exports = {
 
     attributes: {
+      link: {
+        type: 'string',
+        required: true,
+        unique: true
+      },
+
       firstName: {
         type: 'string',
         required: true
@@ -73,8 +79,14 @@
 
         var sum = 0.0;
         for (var i = 0; i < this.movies.length; i++)
-          sum += movies[i].rating;
-        return sum / movies.length
+          sum += this.movies[i].rating;
+        return sum / this.movies.length
       }
+    },
+
+    beforeValidate: function (values, cb) {
+      if (!!values['link'] === false)
+        values['link'] = [values.firstName, values.middleName, values.lastName].join('-').toLowerCase();
+      cb();
     }
   };

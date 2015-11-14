@@ -36,7 +36,9 @@ var saveHandler = function() {
     type: 'POST',
     success: function(data) {
       table.bootstrapTable('refresh');
-      $('#cover').attr('src', '/images/movies/' + (!!data[0] ? data[0].cover : data.cover));
+      setTimeout(function () {
+        $('#cover').attr('src', '/images/movies/' + (!!data[0] ? data[0].cover : data.cover));
+      }, 5000);
       showModalMessage('success', 'Saved successfully')
     },
     error: function() {

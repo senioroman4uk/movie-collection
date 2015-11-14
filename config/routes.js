@@ -126,8 +126,16 @@ module.exports.routes = {
   'get /actors/rss': {
     controller: 'Actor',
     action: 'getRss'
-  }
+  },
+
+  'get /movies/rss': {
+    controller: 'Movie',
+    action: 'getRss'
+  },
   //END SECTION
+
+  'get /actors/:link': 'ActorController.findOne',
+  'get /movies/:link': 'MovieController.findOne'
 
   /***************************************************************************
   *                                                                          *

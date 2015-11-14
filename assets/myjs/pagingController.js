@@ -19,6 +19,7 @@ function formatDate(_date, withTime) {
 }
 
 jQuery(document).ready(function () {
+
   var page = 2;
   var ids = [];
   var defaultAddElement = function(element, amount) {
@@ -35,6 +36,7 @@ jQuery(document).ready(function () {
   delete elements;
 
   var ajaxOptions = {
+    dataType: 'json',
     beforeSend: function () {
       inProcess = true;
     },

@@ -9,6 +9,12 @@ var fs = require('fs');
 module.exports = {
 
   attributes: {
+    link: {
+      type: 'string',
+      required: true,
+      unique: true
+    },
+
     name: {
       type: 'string',
       required: true
@@ -79,6 +85,12 @@ module.exports = {
     rating: {
       float: 'Rating must be a float'
     }
+  },
+
+  beforeValidate: function (values, cb) {
+    if (!!values['link'] === false)
+      values['link'] = [values.name, values.year].join('-').toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "-");
+    cb();
   }
 };
 

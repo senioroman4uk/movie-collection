@@ -6,9 +6,16 @@
  */
 
 var path = require('path');
+var rss = require('node-rss');
+var xml = require('xml-writer');
 
+//async task that renders partial view for movie
 var movieRender = function (movie) {
   return function (next) {
+    /* trigger rendering of partial manually
+     * layout : null says that the view is partial
+     * hook for views was fixed to support model custom methods
+     */
     sails.hooks.views.render('partials/movie', {movie: movie, layout: null}, function (err, html) {
       if (err)
         next(err);
@@ -47,19 +54,62 @@ var findHandler = function (req, res) {
     else if (movies.length === 0)
       response = res.notFound();
     else {
-      if (req.xhr && req.wantsJSON) {
-        var jobs = [];
-        //creating jobs for rendering the movies
-        for (var i = 0; i < movies.length; i++)
-          jobs.push(movieRender(movies[i]));
 
-        //rendering movies in parallel
-        async.parallel(jobs, function (err, data) {
-          return err ? res.serverError() : res.json(data);
-        })
+      //detecting type of response that was preferred
+      var type = req.accepts(['html', 'xml', 'json']);
+      switch (type) {
+        case 'html' :
+          //returning plain view
+          response = res.view({page: 'Movies', movies: movies});
+          break;
+        //TODO: Refactor
+        case 'xml' :
+          //starting xml document
+          var xw = new xml().startDocument().startElement('Movies');
+
+          //processing each record from database
+          movies.forEach(function (movie) {
+              xw = xw.startElement('Movie');
+
+              //removing actos collection, it is empty, but it is still here
+              delete movie.actors;
+
+              //converting dates to stings for xml
+              var dates = ['createdAt', 'updatedAt'];
+              for (var i = 0; i < dates.length; i++)
+                movie[dates[i]] = actor[dates[i]].toString();
+
+              for (var key in movie) {
+                if (movie.hasOwnProperty(key))
+                  xw = xw.startElement(key).text(actor[key]).endElement(key);
+              }
+
+              xw = xw.endElement('Actor');
+            }
+          );
+
+          //finishing xml document
+          xw = xw.endElement('Movies').endDocument();
+
+          //setting Content-Type
+          res.set('Content-Type', 'application/xml');
+          response = res.send(200, xw.toString());
+          break;
+        case 'json' :
+          var jobs = [];
+          //creating jobs for rendering the movies
+          for (var i = 0; i < movies.length; i++)
+            jobs.push(movieRender(movies[i]));
+
+          //rendering movies in parallel
+          async.parallel(jobs, function (err, data) {
+            return err ? res.serverError() : res.json(data);
+          });
+          break;
+        default :
+          response = res.badRequest();
+          break;
       }
-      else
-        response = res.view({page: 'Movies', movies: movies});
     }
 
     return response;
@@ -99,6 +149,27 @@ var findByGenreHandler = function (req, res) {
 };
 
 module.exports = {
+  getRss: function (req, res) {
+    Movie.find().sort('createdAt DESC').limit(10).exec(function (err, data) {
+      if (err)
+        return res.serverError();
+      if (data.length === 0)
+        return res.notFound();
+      var feed = rss.createNewFeed('Most recent movies',
+        'localhost:1337/movies',
+        'Most recent movies from our web-site',
+        'Vladyslav Romanchuk',
+        'http://localhost:1337/movies/rss',
+        {'Category': 'Movies'});
+      data.forEach(function (element) {
+        feed.addNewItem(element.name, '/movies/' + element.link, element.createdAt, element.description, {});
+      });
+
+      res.set('Content-Type', 'application/rss+xml');
+      return res.send(200, rss.getFeedXML(feed));
+    });
+  },
+
   find: function (req, res) {
     var page = 1, limit = Math.min(req.param('limit', 10), 20);
     var where = {};
@@ -126,16 +197,16 @@ module.exports = {
   },
 
   //Getting information about single movie
-  findOne: decoratorService.getPagesDecorator(function (req, res) {
-    var id = req.param('id', '');
+  findOne: function (req, res) {
+    var link = req.param('link', '');
 
-    Movie.findOne(id).populate('genres').populate('actors').exec(findOneHandler(req, res));
-  }),
+    Movie.findOneByLink(link).populate('genres').populate('actors').exec(findOneHandler(req, res));
+  },
 
   //Getting information about single random movie
-  random: decoratorService.getPagesDecorator(function (req, res) {
+  random: function (req, res) {
     Movie.query('SELECT id FROM movie ORDER BY RAND() LIMIT 1', randomHandler(req, res));
-  }),
+  },
 
   update: function (req, res) {
     req.file('cover').upload({
