@@ -8,21 +8,10 @@
 var path = require('path');
 var rss = require('node-rss');
 var xml = require('xml-writer');
+var async = require('async');
+var moment = require('moment');
+var fs = require('fs');
 
-//async task that renders partial view for movie
-var movieRender = function (movie) {
-  return function (next) {
-    /* trigger rendering of partial manually
-     * layout : null says that the view is partial
-     * hook for views was fixed to support model custom methods
-     */
-    sails.hooks.views.render('partials/movie', {movie: movie, layout: null}, function (err, html) {
-      if (err)
-        next(err);
-      next(null, {id: movie.id, html: html});
-    });
-  }
-};
 
 //Controller Callbacks
 var findOneHandler = function (req, res) {
@@ -30,27 +19,31 @@ var findOneHandler = function (req, res) {
     var response;
 
     if (error)
-      response = res.serverError();
-    else if (!(!!movie))
+      response = res.serverError(error);
+    else if (!!movie === false)
       response = res.notFound();
     else {
       if (Object.prototype.toString.call(movie) === '[object Array]')
         movie = movie[0];
 
       response = res.view('movie/findone',
-        {page: movie.name, movie: movie, hideReadMore: true});
+        {page: movie.name, movie: movie, hideReadMore: true, _moment: sails.moment});
     }
 
     return response;
   }
 };
 
-var findHandler = function (req, res) {
-  return function (error, movies) {
+var findHandler = function (req, res, limit, page, where) {
+  var whereKeys = ['genre', 'year'];
+
+  return function (error, data) {
     var response;
+    var movies = data[0];
+    var count = data[1];
 
     if (error)
-      response = res.serverError();
+      response = res.serverError(error);
     else if (movies.length === 0)
       response = res.notFound();
     else {
@@ -60,7 +53,29 @@ var findHandler = function (req, res) {
       switch (type) {
         case 'html' :
           //returning plain view
-          response = res.view({page: 'Movies', movies: movies});
+          var nums = paginationService.paginate(page, limit, count);
+          var link = '/movies?';
+          whereKeys.every(function (key) {
+            if (!!where[key] === true) {
+              link += key + '=' + where[key] + '&';
+              return false;
+            }
+
+            return true;
+          });
+          link += 'page';
+
+          response = res.view({
+            title: 'Movies',
+            _page: page,
+            _limit: limit,
+            _n: nums[0],
+            _i: nums[1],
+            _count: nums[2],
+            _link: link,
+            movies: movies,
+            _moment: moment
+          });
           break;
         //TODO: Refactor
         case 'xml' :
@@ -85,8 +100,7 @@ var findHandler = function (req, res) {
               }
 
               xw = xw.endElement('Actor');
-            }
-          );
+          });
 
           //finishing xml document
           xw = xw.endElement('Movies').endDocument();
@@ -96,14 +110,11 @@ var findHandler = function (req, res) {
           response = res.send(200, xw.toString());
           break;
         case 'json' :
-          var jobs = [];
-          //creating jobs for rendering the movies
-          for (var i = 0; i < movies.length; i++)
-            jobs.push(movieRender(movies[i]));
+          fs.readFile('views/partials/movie.ejs', 'utf8', function (error, template) {
+            if (error)
+              return res.serverError(error);
 
-          //rendering movies in parallel
-          async.parallel(jobs, function (err, data) {
-            return err ? res.serverError() : res.json(data);
+            return res.json({title: utilService.makeTitle('Movies'), template: template, movies: movies});
           });
           break;
         default :
@@ -120,7 +131,7 @@ var randomHandler = function (req, res) {
   return function (error, rows) {
     var response;
     if (error)
-      response = res.serverError();
+      response = res.serverError(error);
     else if (rows.length === 0)
       response = res.notFound();
     else {
@@ -131,28 +142,12 @@ var randomHandler = function (req, res) {
   }
 };
 
-var findByGenreHandler = function (req, res) {
-  return function (error, rows) {
-    var response;
-    if (error)
-      response = res.serverError();
-    else if (rows.length === 0)
-      response = res.notFound();
-    else {
-      var ids = [];
-      for (var i = 0; i < rows.length; i++)
-        ids.push(rows[i].id);
-      Movie.find(ids).populate('genres', {sort: 'name'}).exec(findHandler(req, res));
-    }
-    return response;
-  }
-};
 
 module.exports = {
   getRss: function (req, res) {
-    Movie.find().sort('createdAt DESC').limit(10).exec(function (err, data) {
-      if (err)
-        return res.serverError();
+    Movie.find().sort('createdAt DESC').limit(10).exec(function (error, data) {
+      if (error)
+        return res.serverError(error);
       if (data.length === 0)
         return res.notFound();
       var feed = rss.createNewFeed('Most recent movies',
@@ -171,29 +166,71 @@ module.exports = {
   },
 
   find: function (req, res) {
-    var page = 1, limit = Math.min(req.param('limit', 10), 20);
+    var page = req.param('page', 1) || 1,
+      limit = Math.min(req.param('limit', 10), 1);
     var where = {};
     var allowedParameters = ['year'];
-
-    if (req.xhr && req.wantsJSON && req.param('page'))
-      page = req.param('page');
 
     for (var i = 0; i < allowedParameters.length; i++)
       if (req.param(allowedParameters[i]))
         where[allowedParameters[i]] = req.param(allowedParameters[i]);
 
-    if (req.param('genre')) {
+
+    var paralelJobs = [];
+
+    var genre = req.param('genre', null);
+    if (genre) {
       var sql = 'SELECT movie.id ' +
-        'FROM genre_movies__movie_genres JOIN movie on(movie.id = genre_movies__movie_genres.movie_genres) ' +
-        'WHERE genre_movies = ? ' +
+        'FROM genre_movies__movie_genres ' +
+        'INNER JOIN movie on(movie.id = genre_movies__movie_genres.movie_genres) ' +
+        'INNER JOIN genre on (genre.id = genre_movies__movie_genres.genre_movies) ' +
+        "WHERE genre.name = ? " +
         'LIMIT ?, ?';
-      Movie.query(sql, [req.param('genre'), (page - 1) * limit, page * limit], findByGenreHandler(req, res));
+
+      var jobs = [];
+      jobs.push(function (next) {
+        Movie.query(sql, [genre, (page - 1) * limit, limit], next);
+      });
+      jobs.push(function (rows, next) {
+        var ids = [];
+        for (var i = 0; i < rows.length; i++)
+          ids.push(rows[i].id);
+        Movie.find(ids).populate('genres', {sort: 'name'}).exec(next);
+      });
+
+      paralelJobs.push(function (next) {
+        async.waterfall(jobs, next);
+      });
+
+      var sql2 = 'SELECT COUNT(*) AS count ' +
+        'FROM genre_movies__movie_genres ' +
+        'INNER JOIN movie on(movie.id = genre_movies__movie_genres.movie_genres) ' +
+        'INNER JOIN genre on (genre.id = genre_movies__movie_genres.genre_movies) ' +
+        "WHERE genre.name = ? ";
+      paralelJobs.push(function (next) {
+        Movie.query(sql2, [genre], function (error, result) {
+          if (error)
+            next(error);
+          next(null, result[0].count);
+        });
+      })
     }
     else {
-      Movie.find(where).populate('genres', {sort: 'name'})
-        .paginate({page: page, limit: limit})
-        .exec(findHandler(req, res));
+      paralelJobs.push(function (next) {
+        Movie.find(where).populate('genres', {sort: 'name'})
+          .paginate({page: page, limit: limit})
+          .exec(next);
+      });
+      paralelJobs.push(function (next) {
+        Movie.count(where).exec(next);
+      });
     }
+
+    var getParameters = where;
+    if (genre)
+      getParameters['genre'] = genre;
+
+    async.parallel(paralelJobs, findHandler(req, res, limit, page, getParameters));
   },
 
   //Getting information about single movie
@@ -259,9 +296,9 @@ module.exports = {
   destroy: function (req, res) {
     var id = req.param('id');
 
-    Movie.destroy(id, function (err, data) {
-      if (err)
-        return res.serverError();
+    Movie.destroy(id, function (error, data) {
+      if (error)
+        return res.serverError(error);
       return res.json(data);
     });
   }

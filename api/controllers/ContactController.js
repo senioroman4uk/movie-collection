@@ -15,20 +15,55 @@ var getParameters = function (req) {
 
   return params;
 };
-var findHandler = function (req, res) {
-  return function (error, contacts) {
+var findHandler = function (req, res, limit, page) {
+  return function (error, data) {
+    var count = data[1];
+    var contacts = data[0];
     var response;
-    if (error)
-      response = res.serverError();
-    else {
-      if (req.xhr && req.wantsJSON)
-        response = res.json(contacts);
-      else
-        response = res.view({page: 'Contact messages', contacts: contacts});
-    }
 
+
+    if (error)
+      response = res.serverError(error);
+    else if (contacts.length === 0)
+      response = res.notFound();
+    else {
+      var type = req.accepts(['html', 'xml', 'json']);
+      switch (type) {
+        case 'html' :
+          var nums = paginationService.paginate(page, limit, count);
+          response = res.view('contact/new', {
+            title: 'Contact us',
+            _page: page,
+            _limit: limit,
+            _n: nums[0],
+            _i: nums[1],
+            _count: nums[2],
+            _link: '/contact?page',
+            contacts: contacts,
+            _moment: sails.moment
+          });
+          break;
+        case 'xml':
+
+          break;
+
+        case 'json':
+          return res.json({
+            title: utilService.makeTitle('Contact us'), template: '<tr><td><%- contact.name       %></td>' +
+            '<td><%- contact.email      %></td>' +
+            '<td><%- contact.message    %></td>' +
+            '<td><%- contact.answer     %></td>' +
+            '<td><%- _moment(contact.createdAt).format(\'DD.MM.YYYY HH:mm:ss\')  %></td></tr>', contacts: contacts
+          });
+          break;
+        default :
+          response = res.badRequest();
+          break;
+      }
+    }
     return response;
   }
+
 };
 
 module.exports = {
@@ -48,14 +83,20 @@ module.exports = {
   },
 
   find: function (req, res) {
-    var page = 1, limit = req.param('limit', 10);
+    var page = req.param('page', 1) || 1,
+      limit = Math.min(req.param('limit', 10), 10);
 
-    if (req.xhr && req.wantsJSON && req.param('page'))
-      page = req.param('page');
+    var jobs = [
+      function (next) {
+        Contact.find({answer: {'!': null}}).paginate({page: page, limit: limit}).exec(next);
+      },
 
-    Contact.find()
-      .paginate({page: page, limit: limit})
-      .exec(findHandler(req, res));
+      function (next) {
+        Contact.count({answer: {'!': null}}).exec(next);
+      }
+    ];
+
+    async.parallel(jobs, findHandler(req, res, limit, page));
   },
 
   update: function (req, res) {
@@ -67,9 +108,9 @@ module.exports = {
     console.log(data);
     console.log(id);
     delete data['id'];
-    Contact.update(id, data).exec(function (err, data) {
-      if (err)
-        return res.serverError();
+    Contact.update(id, data).exec(function (error, data) {
+      if (error)
+        return res.serverError(error);
 
       return res.json(data);
     })
@@ -78,9 +119,9 @@ module.exports = {
   destroy: function (req, res) {
     var id = req.param('id');
 
-    Contact.destroy(id, function (err, data) {
-      if (err)
-        return res.serverError();
+    Contact.destroy(id, function (error, data) {
+      if (error)
+        return res.serverError(error);
       return res.json(data);
     })
   },
@@ -100,9 +141,9 @@ module.exports = {
       Contact.count(where).exec(next);
     });
 
-    async.parallel(jobs, function(err, data) {
-      if (err)
-        return res.serverError();
+    async.parallel(jobs, function (error, data) {
+      if (error)
+        return res.serverError(error);
       return res.json({rows: data[0], total: data[1]})
     })
   }

@@ -36,16 +36,28 @@
   </div>
 </div>
 
-<table id="messages" data-toggle="table" data-url="/contacts/answered" data-pagination="true"
-       data-side-pagination="server" data-sortable="true">
+<table class="table">
   <thead>
   <tr>
-    <th data-field="name" data-sortable="true">name</th>
-    <th data-field="email" data-sortable="true">email</th>
-    <th data-field="message" data-sortable="true" data-editable="true">message</th>
-    <th data-field="answer" data-sortable="true" data-editable="true">answer</th>
-    <th data-field="createdAt" data-sortable="true">date of creation</th>
+    <th>name</th>
+    <th>email</th>
+    <th>message</th>
+    <th>answer</th>
+    <th>date of creation</th>
   </tr>
   </thead>
+  <tbody id="contacts">
+  <% for (var i = 0; i < contacts.length; i++) { %>
+  <tr>
+    <td><%- contacts[i].name %></td>
+    <td><%- contacts[i].email %></td>
+    <td><%- contacts[i].message %></td>
+    <td><%- contacts[i].answer %></td>
+    <td><%- _moment(contacts[i].createdAt).format('DD.MM.YYYY HH:mm:ss') %></td>
+  </tr>
+  <% } %>
+  </tbody>
 </table>
+<%- partial('../partials/pagination') %>
 <script src="/myjs/contactFormController.js"></script>
+<script src="/myjs/pages/contactsController.js"></script>

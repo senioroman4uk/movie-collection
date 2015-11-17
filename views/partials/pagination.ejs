@@ -1,0 +1,11 @@
+<% if (_count > 1) { %>
+<ul class="pagination">
+  <% for (_i = _i + 1; _i < _n + 1; _i++) {
+  if (_i != _page) { %>
+  <li><a href="<%= _link + '=' + _i %>"><%= _i %></a>
+    <% } else { %>
+  <li class="active"><a href="<%= _link + '=' + _i %>"><%= _i %></a>
+    <% } %>
+    <% } %>
+</ul>
+<% } %>

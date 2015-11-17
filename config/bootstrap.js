@@ -10,12 +10,14 @@
  */
 var fixtures = require('sails-fixtures');
 var assync = require('async');
+var moment = require('moment');
 
 module.exports.bootstrap = function(cb) {
 
   var jobs = [];
   //jobs.push(processFixtures);
   jobs.push(getPages);
+  jobs.push(addMoment);
 
   assync.series(jobs, cb);
   // It's very important to trigger this callback method when you are finished
@@ -46,5 +48,10 @@ module.exports.bootstrap = function(cb) {
       sails.hooks.blueprints.bindShadowRoutes();
       next(null);
     });
+  }
+
+  function addMoment(next) {
+    sails.moment = moment;
+    next(null);
   }
 };

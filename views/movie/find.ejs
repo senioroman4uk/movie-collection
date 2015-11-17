@@ -4,14 +4,17 @@
       <h4 class="uppercase">We have such movies</h4>
     </div>
   </div>
-  <% for(var i = 0; i < movies.length; i++) {
+
+  <div id="movies">
+
+    <% for(var i = 0; i < movies.length; i++) {
        locals.movie = movies[i];
   %>
-       <div class="row padding-top-15 padding-bottom-15 bottom-30 <%- i % 2 != 0 ? 'delimiter' : 'white-row' %>">
+    <div data-id="<%- movie.id %>"
+         class="row padding-top-15 padding-bottom-15 bottom-30 <%- i % 2 != 0 ? 'delimiter' : 'white-row' %>">
          <%- partial('../partials/movie') %>
        </div>
   <% } %>
-<script id="elements">
-  var elements = <%- JSON.stringify(movies)%>;
-</script>
-<script type="text/javascript" src="/myjs/pagingController.js"></script>
+  </div>
+  <%- partial('../partials/pagination') %>
+  <script type="text/javascript" src="/myjs/pages/moviesController.js"></script>

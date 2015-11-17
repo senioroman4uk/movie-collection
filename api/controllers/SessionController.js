@@ -45,7 +45,7 @@ module.exports = {
       }
       else {
         sessionService.logIn(req, res, user, function(req, res) {
-          res.redirect('/');
+          return res.redirect('/');
         });
       }
     });

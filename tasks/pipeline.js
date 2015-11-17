@@ -31,6 +31,8 @@ var jsFilesToInject = [
   'bower_components/jquery/dist/jquery.js',
   'bower_components/bootstrap/dist/js/bootstrap.js',
   'bower_components/tooltipster/js/jquery.tooltipster.js',
+  'bower_components/ejs/ejs.js',
+  'bower_components/moment/moment.js',
   // END: Load bower components
 
   // Dependencies like jQuery, or Angular are brought in here

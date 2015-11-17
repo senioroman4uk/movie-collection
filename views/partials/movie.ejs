@@ -10,7 +10,8 @@
     <p>
       <%- movie.length %> min |
       <% for (var i = 0; i < movie.genres.length; i++) { %>
-        <a href="/movies?genre=<%- movie.genres[i].id %>"><%- movie.genres[i].name %></a><%- i + 1 !== movie.genres.length ? ',' : ''%>
+      <a
+        href="/movies?genre=<%- movie.genres[i].name.toLowerCase() %>"><%- movie.genres[i].name %></a><%- i + 1 !== movie.genres.length ? ',' : '' %>
       <% } %>
     </p>
     <div class="progress">
@@ -22,5 +23,5 @@
     <% if (typeof(hideReadMore) === 'undefined' || !hideReadMore) {%>
     <a class="btn btn-large btn-primary" href="/movies/<%- movie.link %>">Read more</a>
     <% }%>
-    <span class="pull-right"> Created at: <%- utilService.formatDate(movie.createdAt) %></span>
+    <span class="pull-right"> Created at: <%- _moment(movie.createdAt).format('DD.MM.YYYY HH:mm:ss') %></span>
   </div>

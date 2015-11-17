@@ -3,7 +3,7 @@
 </div>
 <div class="col-md-6">
   <h1>
-    <%- actor.getName() %>
+    <%- [actor.firstName, actor.middleName, actor.lastName].join(' ') %>
   </h1>
   <p>
 
@@ -17,10 +17,10 @@
     <%- actor.generalInfo %>
     <br>
     <br>
-    Born: <%- actor.birthName + ' ' + utilService.formatDate(actor.birthDate) %> in <%- actor.birthPlace %>
+    Born: <%- actor.birthName + ' ' + _moment(actor.birthDaa).format('DD.MM.YYYY') %> in <%- actor.birthPlace %>
   </p>
   <% if (typeof(hideReadMore) === 'undefined' || !hideReadMore) {%>
   <a class="btn btn-large btn-primary" href="/actors/<%- actor.link %>">Read more</a>
   <% } %>
-  <span class="pull-right"> Created at: <%- utilService.formatDate(actor.createdAt) %></span>
+  <span class="pull-right"> Created at: <%- _moment(actor.createdAt).format('DD.MM.YYYY HH:mm:ss') %></span>
 </div>

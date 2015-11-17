@@ -8,27 +8,15 @@
 var path = require('path');
 var rss = require('node-rss');
 var xml = require('xml-writer');
+var fs = require('fs');
 
-//async task that renders partial view for actor
-var actorRender = function (actor) {
-  return function (next) {
-
-    /* trigger rendering of partial manually
-     * layout : null says that the view is partial
-     * hook for views was fixed to support model custom methods
-     */
-    sails.hooks.views.render('partials/actor', {actor: actor, layout: null}, function (err, html) {
-      if (err)
-        next(err);
-      next(null, {id: actor.id, html: html});
-    });
-  }
-};
 
 //handler for Actor.find()
-function findHandler(req, res) {
-  return function (error, actors) {
+function findHandler(req, res, limit, page) {
+  return function (error, data) {
     var response;
+    var actors = data[0];
+    var count = data[1];
 
     if (error)
       response = res.serverError(error);
@@ -40,7 +28,18 @@ function findHandler(req, res) {
       switch (type) {
         case 'html' :
           //returning plain view
-          response = res.view({page: 'Actors', actors: actors});
+          var nums = paginationService.paginate(page, limit, count);
+          response = res.view({
+            title: 'Actors',
+            _page: page,
+            _limit: limit,
+            _n: nums[0],
+            _i: nums[1],
+            _count: nums[2],
+            _link: '/actors?page',
+            _moment: sails.moment,
+            actors: actors
+          });
           break;
         case 'xml' :
           //starting xml document
@@ -75,14 +74,10 @@ function findHandler(req, res) {
           response = res.send(200, xw.toString());
           break;
         case 'json' :
-          var jobs = [];
-          //creating jobs for rendering the movies
-          for (var i = 0; i < actors.length; i++)
-            jobs.push(actorRender(actors[i]));
-
-          //rendering movies in parallel
-          async.parallel(jobs, function (err, data) {
-            return err ? res.serverError() : res.json(data);
+          fs.readFile('views/partials/actor.ejs', 'utf8', function (error, template) {
+            if (error)
+              return res.serverError(error);
+            return res.json({title: utilService.makeTitle('Actors'), template: template, actors: actors});
           });
           break;
         default :
@@ -104,7 +99,7 @@ function findOneHandler(req, res) {
       response = res.notFound();
     else {
       response = res.view('actor/findone',
-        {page: actor.getName(), actor: actor, hideReadMore: true});
+        {title: actor.getName(), actor: actor, hideReadMore: true, _moment: sails.moment});
     }
     return response
   }
@@ -112,9 +107,9 @@ function findOneHandler(req, res) {
 
 module.exports = {
   getRss: function (req, res) {
-    Actor.find().sort('createdAt DESC').limit(10).exec(function (err, data) {
-      if (err)
-        return res.serverError();
+    Actor.find().sort('createdAt DESC').limit(10).exec(function (error, data) {
+      if (error)
+        return res.serverError(error);
       if (data.length === 0)
         return res.notFound();
 
@@ -137,8 +132,20 @@ module.exports = {
   },
 
   find: function (req, res) {
-    var page = req.param('page', 1), limit = Math.min(req.param('limit', 1), 20);
-    Actor.find().paginate({page: page, limit: limit}).exec(findHandler(req, res));
+    var page = req.param('page', 1) || 1,
+      limit = Math.min(req.param('limit', 1), 10);
+
+    var jobs = [
+      function (next) {
+        Actor.find().paginate({page: page, limit: limit}).exec(next);
+      },
+
+      function (next) {
+        Actor.count().exec(next);
+      }
+    ];
+
+    async.parallel(jobs, findHandler(req, res, limit, page));
   },
 
   findOne: function (req, res) {
@@ -162,7 +169,6 @@ module.exports = {
         parts[1] = day;
         data['birthDate'] = new Date(parts.join('.'));
       }
-      console.log(data);
       var id = data['id'];
       delete data['id'];
 

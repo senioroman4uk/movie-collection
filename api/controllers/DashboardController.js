@@ -4,9 +4,9 @@
 
 var async = require('async');
 var asyncComplete = function (req, res) {
-  return function (err, data) {
-    if (err)
-      return res.serverError();
+  return function (error, data) {
+    if (error)
+      return res.serverError(error);
     else
       return res.json({rows: data[0], total: data[1]})
   }
@@ -50,9 +50,9 @@ module.exports = {
 
   getMovies: function (req, res) {
     if (!req.xhr || !req.wantsJSON) {
-      Genre.find().exec(function (err, data) {
-        if (err)
-          return res.serverError();
+      Genre.find().exec(function (error, data) {
+        if (error)
+          return res.serverError(error);
         return res.view({layout: '/layouts/dashboardLayout', genres: data});
       });
     }
@@ -73,9 +73,9 @@ module.exports = {
 
   getPages: function (req, res) {
     if (!req.xhr || !req.wantsJSON) {
-      Role.find(function (err, roles) {
-        if (err)
-          return res.serverError();
+      Role.find(function (error, roles) {
+        if (error)
+          return res.serverError(error);
         return res.view({layout: '/layouts/dashboardLayout', roles: roles});
       });
     }
@@ -114,9 +114,9 @@ module.exports = {
   },
 
   getRoles: function (req, res) {
-    Role.find({}, function (err, data) {
-      if (err)
-        return res.serverError();
+    Role.find({}, function (error, data) {
+      if (error)
+        return res.serverError(error);
       var roles = [];
       data.forEach(function (role) {
         roles.push({value: role.id, text: role.name})
@@ -156,9 +156,9 @@ module.exports = {
     }
 
 
-    Actor.find(options, {select: ['id', 'firstName', 'lastName']}).exec(function (err, actors) {
-      if (err)
-        return res.serverError();
+    Actor.find(options, {select: ['id', 'firstName', 'lastName']}).exec(function (error, actors) {
+      if (error)
+        return res.serverError(error);
       actors.forEach(function (actor, i) {
         actors[i] = {id: actor.id, text: actor.getName()}
       });
@@ -173,9 +173,9 @@ module.exports = {
       options['name'] = {contains: token}
     }
 
-    Movie.find(options, {select: ['id', 'name']}).exec(function (err, movies) {
-      if (err)
-        return res.serverError();
+    Movie.find(options, {select: ['id', 'name']}).exec(function (error, movies) {
+      if (error)
+        return res.serverError(error);
       movies.forEach(function (movie, i) {
         movies[i] = {id: movie.id, text: movie.name}
       });
