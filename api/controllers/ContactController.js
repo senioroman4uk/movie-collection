@@ -19,19 +19,17 @@ var findHandler = function (req, res, limit, page) {
   return function (error, data) {
     var count = data[1];
     var contacts = data[0];
-    var response;
-
+    var nums = paginationService.paginate(page, limit, count);
 
     if (error)
-      response = res.serverError(error);
+      return res.serverError(error);
     else if (contacts.length === 0)
-      response = res.notFound();
+      return res.notFound();
     else {
       var type = req.accepts(['html', 'xml', 'json']);
       switch (type) {
         case 'html' :
-          var nums = paginationService.paginate(page, limit, count);
-          response = res.view('contact/new', {
+          return res.view('contact/new', {
             title: 'Contact us',
             _page: page,
             _limit: limit,
@@ -48,20 +46,41 @@ var findHandler = function (req, res, limit, page) {
           break;
 
         case 'json':
-          return res.json({
-            title: utilService.makeTitle('Contact us'), template: '<tr><td><%- contact.name       %></td>' +
-            '<td><%- contact.email      %></td>' +
-            '<td><%- contact.message    %></td>' +
-            '<td><%- contact.answer     %></td>' +
-            '<td><%- _moment(contact.createdAt).format(\'DD.MM.YYYY HH:mm:ss\')  %></td></tr>', contacts: contacts
-          });
+          if (req.param('ajax')) {
+            sails.hooks.views.render('contact/new', {
+              title: 'Contact us',
+              _page: page,
+              _limit: limit,
+              _n: nums[0],
+              _i: nums[1],
+              _count: nums[2],
+              _link: '/contact?page',
+              contacts: contacts,
+              _moment: sails.moment,
+              req: req,
+              layout: null,
+              flash: res.locals.flash
+            }, function (error, html) {
+              if (error)
+                return res.serverError(error);
+              return res.json(200, {title: utilService.makeTitle('Contact us'), html: html})
+            });
+          }
+          else {
+            return res.json(200, {
+              title: utilService.makeTitle('Contact us'), template: '<tr><td><%- contact.name       %></td>' +
+              '<td><%- contact.email      %></td>' +
+              '<td><%- contact.message    %></td>' +
+              '<td><%- contact.answer     %></td>' +
+              '<td><%- _moment(contact.createdAt).format(\'DD.MM.YYYY HH:mm:ss\')  %></td></tr>', contacts: contacts
+            });
+          }
           break;
         default :
-          response = res.badRequest();
+          return res.badRequest();
           break;
       }
     }
-    return response;
   }
 
 };
@@ -78,13 +97,29 @@ module.exports = {
     Contact.create(data, creationCallback);
 
     function creationCallback(error, data) {
-      return error ? res.json(400, error) : res.json(201, data);
+      if (req.wantsJSON)
+        return error ? res.json(400, error) : res.json(201, data);
+      else {
+        if (error) {
+          try {
+            for (var key in error.Errors) {
+              if (error.Errors.hasOwnProperty(key))
+                req.session.flash.danger.push(key + ': ' + error.Errors[key][0].message)
+            }
+          } catch (e) {
+            req.session.flash.danger.push('Unknown error occurred while saving your message');
+          }
+        }
+        else
+          req.session.flash.success.push("We will contact with you soon, " + data.name);
+        res.redirect('/contact');
+      }
     }
   },
 
   find: function (req, res) {
-    var page = req.param('page', 1) || 1,
-      limit = Math.min(req.param('limit', 10), 10);
+    var page = req.param('page', 1) || 1;
+    var limit = Math.min(req.param('limit', 10), 10);
 
     var jobs = [
       function (next) {
@@ -105,8 +140,6 @@ module.exports = {
       return res.badRequest();
 
     var data = req.params.all();
-    console.log(data);
-    console.log(id);
     delete data['id'];
     Contact.update(id, data).exec(function (error, data) {
       if (error)

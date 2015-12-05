@@ -14,6 +14,12 @@ var creationCallback = function(req, res) {
 };
 
 module.exports = {
+  getHeader: function (req, res) {
+    sails.hooks.views.render('layouts/header', {req: req, layout: null}, function (error, html) {
+      return error ? res.serverError(error) : res.ok(html);
+    })
+  },
+
   contact: function (req, res) {
     return res.view('static/contact', {page: 'Contact'});
   },

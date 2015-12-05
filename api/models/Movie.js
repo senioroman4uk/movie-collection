@@ -59,6 +59,10 @@ module.exports = {
     storyLine: {
       type: 'text',
       defaultsTo: ''
+    },
+
+    'getName': function () {
+      return this.name;
     }
   },
 
@@ -84,7 +88,7 @@ module.exports = {
     },
     rating: {
       float: 'Rating must be a float'
-    }
+    },
   },
 
   beforeValidate: function (values, cb) {

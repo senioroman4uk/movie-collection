@@ -31,8 +31,7 @@ module.exports = function(req, res, next) {
 
   async.waterfall(jobs, function(err, pages) {
     if (err) {
-      console.log(err);
-      return res.serverError();
+      return res.serverError(err);
     }
 
     var _action = req.options.controller.charAt(0).toUpperCase() + req.options.controller.slice(1) + 'Controller.'

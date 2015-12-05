@@ -1,7 +1,7 @@
 <div class="row bottom-30 top-30">
   <div class="col-sm-6 col-sm-offset-3">
     <div id="login">
-      <form action="/sessions/create">
+      <form name="activityForm" action="/sessions/create">
         <%- partial('../partials/flash') %>
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
@@ -11,7 +11,6 @@
           <label for="exampleInputPassword1">Password</label>
           <input type="password" placeholder="Password" name="password" class="form-control">
         </div>
-        <input type='hidden' name='_csrf' value='<%= _csrf %>'>
 
         <div class="pull-left">
 
@@ -26,5 +25,5 @@
     </div>
     <!--login tab end-->
   </div>
-
 </div>
+<script type="text/javascript" src="/myjs/pages/loginController.js"></script>

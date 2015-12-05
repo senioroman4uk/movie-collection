@@ -135,7 +135,9 @@ module.exports.routes = {
   //END SECTION
 
   'get /actors/:link': 'ActorController.findOne',
-  'get /movies/:link': 'MovieController.findOne'
+  'get /movies/:link': 'MovieController.findOne',
+  'get /header': 'PageController.getHeader',
+  'get /xmlTest': {view: 'xmlTest'}
 
   /***************************************************************************
   *                                                                          *

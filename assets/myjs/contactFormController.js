@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
       data[element.name] = $(element).val();
     });
 
-    jQuery.post('/contacts', data, successCallback, 'json').fail(errorCallback);
+    jQuery.post(this.action, data, successCallback, 'json').fail(errorCallback);
     return false;
   }
 

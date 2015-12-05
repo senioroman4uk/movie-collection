@@ -11,6 +11,7 @@ $(document).ready(function () {
     }
   });
 
-  //$('body a').click(pager.linkClickHandler);
-  $(window).scroll(pager.scrollHandler);
+  $(document).on('click', 'a:not(.logoutButton)', pager.linkClickHandler);
+  //$(window).scroll(pager.scrollHandler);
+  $(document).on('click', 'a.logoutButton', pager.logoutHandler);
 });

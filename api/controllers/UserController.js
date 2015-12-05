@@ -8,11 +8,23 @@
 var crypto = require('crypto');
 
 module.exports = {
-  new: function(req, res) {
+  new: function (req, res) {
     //if already logged in redirect to home page
     if (!!req.session.user !== false)
-      return res.redirect('/');
-    return res.view({page: 'sign up'})
+      return req.param('ajax') ? res.redirect('/?ajax=true') : res.redirect('/');
+
+    if (req.param('ajax')) {
+      sails.hooks.views.render('user/new', {layout: null, flash: res.locals.flash}, function (error, html) {
+        if (error)
+          return res.serverError(error);
+        return res.json(200, {title: utilService.makeTitle('sign up'), html: html});
+      });
+    }
+    else
+      return res.view({
+        title: 'login'
+      });
+    //return res.view({page: 'sign up'})
   },
 
   create: function (req, res) {
@@ -24,12 +36,20 @@ module.exports = {
       data[allowedParameters[i]] = data[allowedParameters[i]].trim();
       if (!!data[allowedParameters[i]] === false) {
         req.session.flash.danger.push("You have to fill in all the fields");
-        return res.redirect('/signup');
+        if (!req.wantsJSON)
+          return res.redirect('/signup');
+        else {
+          return res.json(400, {errors: ['You have to fill in all the fields']})
+        }
       }
     }
     if (data['password'] !== data['repeatPassword']) {
       req.session.flash.danger.push("Passwords do not match");
-      return res.redirect('/signup');
+      if (!req.wantsJSON)
+        return res.redirect('/signup');
+      else {
+        return res.json(400, {errors: ['Passwords do not match']})
+      }
     }
     delete data['repeatPassword'];
 
@@ -38,26 +58,40 @@ module.exports = {
     // normal user
     data['role'] = 1;
 
-    User.create(data, function(error, user) {
+    User.create(data, function (error, user) {
       if (error) {
-        if (typeof(error.Errors) !== 'undefined') {
+        try {
+          var errors = [];
           for (var name in error.Errors) {
-            req.session.flash.danger.push(error.Errors[name][0].message);
+            if (error.Errors.hasOwnProperty(name)) {
+              errors.push(error.Errors[name][0].message);
+            }
           }
-          return res.redirect('/signup');
+          if (!req.wantsJSON) {
+            req.session.flash.danger = req.session.flash.danger.concat(errors);
+            return res.redirect('/signup');
+          }
+          else
+            return res.json(400, {errors: errors});
         }
-        else {
-          req.session.flash.danger.push('Registration Failed');
-          res.redirect('/signup')
+        catch (e) {
+          if (!req.wantsJSON) {
+            req.session.flash.danger.push('Registration Failed');
+            return res.redirect('/signup');
+          }
+          else
+            return res.json(400, {errors: ['Registration Failed']});
         }
       }
       else {
-          sessionService.logIn(req, res, user, function(req, res) {
+        sessionService.logIn(req, res, user, function (req, res) {
           req.session.flash.success.push("You have registered");
-          return res.redirect('/');
+          if (req.wantsJSON)
+            return res.redirect('/?ajax=true');
+          else
+            return res.redirect('/');
         });
       }
     });
   }
 };
-

@@ -1,20 +1,54 @@
 /**
  * Created by Vladyslav on 15.11.2015.
  */
+//TODO: Refactor
 function Pager(options) {
-  $('.pagination').remove();
-  var updateHistory = function () {
-    var href = '';
-    if (location.href.split('?').length === 1)
-      href = location.href + '?page=' + currentPage;
-    else {
-      var matches = location.href.match(pageRegex);
-      if (matches)
-        href = location.href.replace('page=' + matches[1], 'page=' + currentPage);
-      else
-        href = location.href + '&page=' + currentPage;
+  var popped = ('state' in window.history) && window.history.state != null;
+  var initialURL = location.href;
+
+  var updateHistory = function (url) {
+    var href = url || '';
+    if (href === '') {
+      if (location.href.split('?').length === 1)
+        href = location.href + '?page=' + currentPage;
+      else {
+        var matches = location.href.match(pageRegex);
+        if (matches)
+          href = location.href.replace('page=' + matches[1], 'page=' + currentPage);
+        else
+          href = location.href + '&page=' + currentPage;
+      }
     }
-    history.pushState({}, document.title, href);
+
+    history.pushState({href: href}, document.title, href);
+  };
+  window.history.replaceState({'href': initialURL}, document.title, window.location.href);
+
+  $(window).bind("popstate", function (e) {
+    //e.preventDefault();
+
+    var initialPop = !popped && location.href == initialURL;
+    popped = true;
+    if (initialPop)
+      return;
+
+    currentXhr = $.ajax(e.originalEvent.state.href, historyAjaxOptions);
+  });
+
+  //$('.pagination').remove();
+
+  var updateHeader = function updateHeader() {
+    $.get('/header', function (html) {
+      $('header').remove();
+      $('#container').prepend(html);
+    }, 'html');
+  };
+
+  var unbind = function () {
+    $(window).unbind('scroll');
+    $(window).unbind('popstate');
+    $(document).off('click', 'a:not(.logoutButton)');
+    $(document).off('click', 'a.logoutButton');
   };
 
   options = options || {};
@@ -28,8 +62,7 @@ function Pager(options) {
   var itemName = options.itemName || 'item';
   var items = options.viewItems || itemName + 's';
   var itemContainer = options.itemContainer || 'div.row';
-  //var itemsLocation = options.itemsLocation || (location.protocol + '//' + location.host + location.pathname);
-  var itemsLocation = options.itemsLocation || location.href.replace(pageRegex, '');
+  //var itemsLocation = options.itemsLocation || location.href.replace(pageRegex, '');
   var currentXhr = null;
   var beforeItemInsert = options.beforeItemInsert;
   var itemsAjaxOptions = options.ajaxOptions || {
@@ -70,6 +103,26 @@ function Pager(options) {
 
       }
     };
+  var redirectAjaxOptions = {
+    dataType: 'json',
+    data: {ajax: true},
+    beforeSend: itemsAjaxOptions['beforeSend'],
+    complete: itemsAjaxOptions['complete']
+  };
+  var historyAjaxOptions = {
+    dataType: 'json',
+    data: {ajax: true},
+    beforeSend: itemsAjaxOptions['beforeSend'],
+    complete: itemsAjaxOptions['complete'],
+    success: function (data) {
+      //removing old scroll handler
+      unbind();
+      //updateHistory(href);
+      $('#content').html(data.html);
+      document.title = data.title;
+      $("html, body").animate({scrollTop: "0px"});
+    }
+  };
 
 
   //Adding existing ids
@@ -82,16 +135,67 @@ function Pager(options) {
   return {
     scrollHandler: function () {
       if ($(window).height() + $(window).scrollTop() >= $(document).height() && !inProcess) {
-        itemsAjaxOptions.data = {page: currentPage};
-        currentXhr = $.ajax(itemsLocation, itemsAjaxOptions);
+        //itemsAjaxOptions.data = {page: currentPage};
+        //currentXhr = $.ajax(itemsLocation, itemsAjaxOptions);
       }
     },
 
     linkClickHandler: function (event) {
-      event.preventDefault();
-      if ($(this).href === '#')
+      if (this.href.match(/\/dashboard$/))
         return;
 
-    }
+      event.preventDefault();
+
+      if (currentXhr)
+        currentXhr.abort();
+
+      redirectAjaxOptions['success'] = function (href) {
+        return function (data) {
+          //removing old scroll handler
+          unbind();
+          updateHistory(href);
+          $('#content').html(data.html);
+          document.title = data.title;
+          $("html, body").animate({scrollTop: "0px"});
+        }
+      }(this.href);
+      currentXhr = $.ajax(this.href, redirectAjaxOptions);
+    },
+
+    logoutHandler: function (event) {
+      event.preventDefault();
+      var that = this;
+
+      //TODO: Refactor
+      if (currentXhr)
+        currentXhr.abort();
+
+      $.ajax(that.href, {
+        dataType: 'json',
+        type: 'GET',
+        data: {isAjax: true},
+        success: function (data) {
+          unbind();
+
+          document.title = data.title;
+          history.pushState({}, document.title, '/');
+          updateHeader();
+          $('#content').html(data.html);
+        },
+        error: function (xhr) {
+          $('.alert').remove();
+          try {
+            xhr.responseJSON.errors.forEach(function (error) {
+              $(form).prepend('<div class="alert alert-danger">' + error + '</div>')
+            });
+          } catch (e) {
+            $(form).prepend('<div class="alert alert-danger">Unknown error occurred</div>')
+          }
+        }
+      });
+
+    },
+
+    unbind: unbind
   }
 }
