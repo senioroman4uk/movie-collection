@@ -2,23 +2,28 @@
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <a class="navbar-brand" href="/movies">Your movie collection</a>
       </div>
-      <div class="navigation">
+      <div class="navbar-collapse collapse navigation">
         <ul class="nav navbar-nav navbar-right">
           <%
-            var _pages = sails.config.pages;
-            var access = req.session.user ? (req.session.user.access || 0) : 0;
-            for(var i = 0; i < _pages.length; i++) {
-              if (_pages[i].showInMenu === 0 || _pages[i].access > access)
-                continue;
+          var _pages = sails.config.pages;
+          var access = req.session.user ? (req.session.user.access || 0) : 0;
+          for(var i = 0; i < _pages.length; i++) {
+            if (_pages[i].showInMenu === 0 || _pages[i].access > access)
+              continue;
           %>
-              <li><a href="<%- _pages[i].link %>"><%- _pages[i].name %></a></li>
-            <% } %>
+          <li><a href="<%- _pages[i].link %>"><%- _pages[i].name %></a></li>
+          <% } %>
           <% if (req.session.authenticated && req.session.user) { %>
           <li><a class="logoutButton" href="/logout"><i class="glyphicon glyphicon-off"></i></a></li>
           <% }
-             else { %>
+          else { %>
           <li><a href="/login"><i class="glyphicon glyphicon-user"></i></a></li>
           <% }%>
           <li><a href="#"><i class="glyphicon glyphicon-search"></i> </a></li>

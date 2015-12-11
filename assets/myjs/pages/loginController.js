@@ -19,7 +19,7 @@ $(document).ready(function () {
     event.preventDefault();
     $.ajax(form.action, {
       dataType: 'json',
-      type: 'GET',
+      type: 'POST',
       data: $(form).serialize(),
       success: function (data) {
         document.title = data.title;

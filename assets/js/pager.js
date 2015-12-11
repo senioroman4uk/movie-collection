@@ -181,16 +181,6 @@ function Pager(options) {
           history.pushState({}, document.title, '/');
           updateHeader();
           $('#content').html(data.html);
-        },
-        error: function (xhr) {
-          $('.alert').remove();
-          try {
-            xhr.responseJSON.errors.forEach(function (error) {
-              $(form).prepend('<div class="alert alert-danger">' + error + '</div>')
-            });
-          } catch (e) {
-            $(form).prepend('<div class="alert alert-danger">Unknown error occurred</div>')
-          }
         }
       });
 
