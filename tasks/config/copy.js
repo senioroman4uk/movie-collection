@@ -31,7 +31,17 @@ module.exports = function(grunt) {
 				src: ['**/*'],
 				dest: 'www'
 			}]
-		}
+    },
+
+    fonts: {
+      files: [{
+        expand: true,
+        //flatten: true,
+        src: ['*'],
+        cwd: '.tmp/public/bower_components/bootstrap/fonts/',
+        dest: '.tmp/public/fonts'
+      }]
+    }
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-copy');
