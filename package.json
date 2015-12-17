@@ -4,6 +4,9 @@
   "version": "0.5.1",
   "description": "a Sails application",
   "keywords": [],
+  "engines": {
+    "node" : "4.2.2"
+  },
   "dependencies": {
     "async": "^1.5.0",
     "crypto": "0.0.3",
@@ -29,11 +32,12 @@
     "sails-fixtures": "^1.0.8",
     "sails-hook-validation": "^0.4.1",
     "sails-mysql": "^0.11.1",
+    "sails-postgresql": "^0.10.17",
     "xml-writer": "^1.6.0"
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "sails lift --prod"
   },
   "main": "app.js",
   "repository": {
