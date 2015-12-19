@@ -38,7 +38,7 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "sails lift",
+    "start": "sails lift --prod",
     "prestart": "./node_modules/bower/bin/bower install"
 
   },
