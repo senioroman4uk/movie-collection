@@ -1,5 +1,6 @@
 <div class="col-md-3">
-  <img class="img-rounded img-responsive" src="/images/actors/<%- actor.cover %>">
+  <img class="img-rounded img-responsive" src="/images/actors/<%- actor.cover %>"
+       alt="<%- [actor.firstName, actor.middleName, actor.lastName].join(' ') + ' photo'%>">
 </div>
 <div class="col-md-6">
   <h1>
@@ -9,7 +10,7 @@
 
   </p>
   <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="<% actor.rating %>"
+    <div class="progress-bar" role="progressbar" aria-valuenow="<%- actor.rating %>"
          aria-valuemin="0" aria-valuemax="10" style="width: 60%;">
     </div>
   </div>
