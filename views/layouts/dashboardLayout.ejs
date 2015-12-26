@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <!--STYLES-->
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/bower_components/tooltipster/css/tooltipster.css">
+  <link rel="stylesheet" href="/bower_components/bootstrap-table/dist/bootstrap-table.css">
   <link rel="stylesheet" href="/styles/app.css">
   <link rel="stylesheet" href="/styles/importer.css">
   <!--STYLES END-->
@@ -17,6 +18,7 @@
   <script src="/bower_components/tooltipster/js/jquery.tooltipster.js"></script>
   <script src="/bower_components/ejs/ejs.js"></script>
   <script src="/bower_components/moment/moment.js"></script>
+  <script src="/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
   <script src="/js/footerController.js"></script>
   <script src="/js/pager.js"></script>
   <!--SCRIPTS END-->
@@ -25,6 +27,7 @@
   <script src="/bower_components/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.js"></script>
   <script src="/bower_components/select2/dist/js/select2.js"></script>
   <script type="text/javascript">$.fn.editable.defaults.mode = 'inline';</script>
+  <title>Dashboard</title>
 </head>
 <body>
   <div class="container">
@@ -47,17 +50,17 @@
       <div class="row">
         <div class="col-sm-3">
           <!-- Left column -->
-          <a href="/dashboard"><strong><i class="glyphicon glyphicon-wrench"></i> Tools</strong></a>
+          <a href="/dashboard"><strong><span class="glyphicon glyphicon-wrench"></span> Tools</strong></a>
           <hr>
 
           <ul class="nav nav-stacked">
-            <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">Settings <i class="glyphicon glyphicon-chevron-down"></i></a>
+            <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">Settings <span class="glyphicon glyphicon-chevron-down"></span></a>
               <ul class="nav nav-stacked collapse in" id="userMenu">
-                <li> <a href="/dashboard/movies"><i class="glyphicon glyphicon-film"></i> Movies</a></li>
-                <li> <a href="/dashboard/actors"><i class="glyphicon glyphicon-star"></i> Actors</a></li>
-                <li> <a href="/dashboard/genres"><i class="glyphicon glyphicon-tags"></i> Genres</a></li>
-                <li><a href="/dashboard/messages"><i class="glyphicon glyphicon-envelope"></i> Messages</a></li>
-                <li><a href="/dashboard/pages"><i class="glyphicon glyphicon-bookmark"></i> Pages</a></li>
+                <li> <a href="/dashboard/movies"><span class="glyphicon glyphicon-film"></span> Movies</a></li>
+                <li> <a href="/dashboard/actors"><span class="glyphicon glyphicon-star"></span> Actors</a></li>
+                <li> <a href="/dashboard/genres"><span class="glyphicon glyphicon-tags"></span> Genres</a></li>
+                <li><a href="/dashboard/messages"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
+                <li><a href="/dashboard/pages"><span class="glyphicon glyphicon-bookmark"></span> Pages</a></li>
                 <!--<li><a href="#"><i class="glyphicon glyphicon-user"></i> Users</a></li>-->
               </ul>
             </li>

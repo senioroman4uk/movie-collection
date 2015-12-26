@@ -30,8 +30,16 @@ body {
 /*BEGIN: Footer styling*/
 footer {
   background-color: #222;
-  color: #FFFFFF;
+  color: #fefefe;
   padding: 10px 0 10px;
+}
+
+footer a {
+  color: #5999d0;
+}
+
+footer a:hover {
+  color: #3172ac;
 }
 
 .with-border {
@@ -40,7 +48,7 @@ footer {
 /*END: Footer styling*/
 
 .delimiter {
-  background-color: #f6f6f6;
+  background-color: #fefefe;
   padding: 15px 0 0 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.118);
   margin-bottom: 30px;
@@ -109,4 +117,18 @@ footer {
 }
 .select2-container .select2-choice .select2-arrow {
   display: none;
+}
+
+/* fixing adaptivity of nav on 768-992px */
+@media (min-width: 768px) and (max-width: 992px) {
+  .navbar-nav>li>a {
+    padding-right: 10px;
+    padding-left: 10px;
+    font-size: 12px;
+  }
+  .navbar-brand {
+    font-size: 16px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
 }

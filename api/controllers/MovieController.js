@@ -129,7 +129,10 @@ module.exports = {
 
   //Getting information about single random movie
   random: function (req, res) {
-    Movie.query('SELECT id FROM movie ORDER BY RAND() LIMIT 1', randomHandler(req, res));
+    if (sails.config.environment === 'production')
+      Movie.query('SELECT id FROM movie ORDER BY RANDOM() LIMIT 1', randomHandler(req, res));
+    else
+      Movie.query('SELECT id FROM movie ORDER BY RAND() LIMIT 1', randomHandler(req, res));
   },
 
   update: function (req, res) {

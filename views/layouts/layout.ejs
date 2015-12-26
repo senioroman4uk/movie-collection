@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title><%- utilService.makeTitle(typeof title != 'undefined' ? title : '') %></title>
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="utf-8">
 
 
     <!--
@@ -30,29 +31,19 @@
     <!--STYLES-->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="/bower_components/tooltipster/css/tooltipster.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap-table/dist/bootstrap-table.css">
     <link rel="stylesheet" href="/styles/app.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
-    <link rel="stylesheet" href="/bower_components/bootstrap-table/dist/bootstrap-table.css">
 
-    <!--SCRIPTS-->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="/bower_components/tooltipster/js/jquery.tooltipster.js"></script>
-    <script src="/bower_components/ejs/ejs.js"></script>
-    <script src="/bower_components/moment/moment.js"></script>
-    <script src="/js/footerController.js"></script>
-    <script src="/js/pager.js"></script>
-    <!--SCRIPTS END-->
-    <script src="/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
   </head>
 
   <body>
   <div id="container" class="container">
     <%- partial ('header.ejs')%>
-    <div id="content" class="container-fluid">
+    <main id="content" class="container-fluid">
       <%- body %>
-    </div>
+    </main>
     <%- partial ('footer.ejs')%>
   </div>
 
@@ -106,6 +97,15 @@
           + Use a different preprocessor, like TypeScript
 
     -->
-
+  <!--SCRIPTS-->
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/bower_components/tooltipster/js/jquery.tooltipster.js"></script>
+  <script src="/bower_components/ejs/ejs.js"></script>
+  <script src="/bower_components/moment/moment.js"></script>
+  <script src="/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
+  <script src="/js/footerController.js"></script>
+  <script src="/js/pager.js"></script>
+  <!--SCRIPTS END-->
   </body>
 </html>
