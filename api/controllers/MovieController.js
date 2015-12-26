@@ -17,7 +17,7 @@ var randomHandler = function (req, res) {
   return function (error, rows) {
     if (error)
       return res.serverError(error);
-    else if (rows.length === 0)
+    else if (!!rows === false || rows.length === 0)
       return res.notFound();
     else {
       var id = rows[0].id;
@@ -73,16 +73,17 @@ module.exports = {
         "WHERE genre.name = ? " +
         'LIMIT ?, ?';
 
-      var jobs = [];
-      jobs.push(function (next) {
-        Movie.query(sql, [genre, (page - 1) * limit, limit], next);
-      });
-      jobs.push(function (rows, next) {
-        var ids = [];
-        for (var i = 0; i < rows.length; i++)
-          ids.push(rows[i].id);
-        Movie.find(ids).populate('genres', {sort: 'name'}).exec(next);
-      });
+      var jobs = [
+        function (next) {
+          Movie.query(sql, [genre, (page - 1) * limit, limit], next);
+        },
+        function (rows, next) {
+          var ids = [];
+          for (var i = 0; i < rows.length; i++)
+            ids.push(rows[i].id);
+          Movie.find(ids).populate('genres', {sort: 'name'}).exec(next);
+        }
+      ];
 
       paralelJobs.push(function (next) {
         async.waterfall(jobs, next);
