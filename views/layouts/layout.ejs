@@ -6,7 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="utf-8">
 
-
+    <% if (typeof actor !== 'undefined' && actor) {%>
+    <meta content="/inages/actors/<%- actor.cover %>" property="og:image">
+    <meta content="<%- actor.firstName + ' ' + actor.lastName %>" property="og:title">
+    <meta content="<%- actor.generalInfo %>" property="og:description">
+   <%} else if (typeof  movie !== 'undefined' && movie) {%>
+    <meta content="/images/movies/<%- movie.cover %>" property="og:image">
+    <meta content="<%- movie.name %>" property="og:title">
+    <meta content="<%- movie.description %>" property="og:description">
+    <% }%>
     <!--
         Stylesheets and Preprocessors
         ==============================
@@ -29,7 +37,11 @@
     -->
 
     <!--STYLES-->
-    <link rel="stylesheet" href="/min/production.min.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/bower_components/tooltipster/css/tooltipster.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap-table/dist/bootstrap-table.css">
+    <link rel="stylesheet" href="/styles/app.css">
+    <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
 
   </head>
@@ -67,7 +79,7 @@
     -->
 
     <!--TEMPLATES-->
-    
+
     <!--TEMPLATES END-->
 
 
@@ -94,7 +106,14 @@
 
     -->
   <!--SCRIPTS-->
-  <script src="/min/production.min.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/bower_components/tooltipster/js/jquery.tooltipster.js"></script>
+  <script src="/bower_components/ejs/ejs.js"></script>
+  <script src="/bower_components/moment/moment.js"></script>
+  <script src="/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
+  <script src="/js/footerController.js"></script>
+  <script src="/js/pager.js"></script>
   <!--SCRIPTS END-->
   </body>
 </html>
