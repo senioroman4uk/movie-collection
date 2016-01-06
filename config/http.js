@@ -31,7 +31,6 @@ module.exports.http = {
   ***************************************************************************/
 
     // order: [
-  //   'responseTimeLogger',
     //   'startRequestTimer',
     //   'cookieParser',
     //   'session',
