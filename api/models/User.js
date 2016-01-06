@@ -38,10 +38,10 @@ module.exports = {
       size: 256
     },
 
-    pollResults: {
-      collection: 'pollResult',
-      via: 'user'
-    }
+    //pollResults: {
+    //  collection: 'pollResult',
+    //  via: 'user'
+    //}
   },
   validationMessages: {
     name: {
