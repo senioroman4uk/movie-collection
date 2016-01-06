@@ -11,6 +11,12 @@ var asyncComplete = function (req, res) {
       return res.json({rows: data[0], total: data[1]})
   }
 };
+
+/**
+ *
+ * @param req object user request
+ * @returns {{skip: *, limit: number, order: string|undefined}} parameters for pagination
+ */
 var getParameters = function (req) {
   var limit = Math.min(req.param('limit', 10), 20),
     skip = req.param('offset', 0),
@@ -126,7 +132,7 @@ module.exports = {
   },
 
   getMessages: function (req,  res) {
-                                                                                                                                                                      if (!req.xhr || !req.wantsJSON) {
+    if (!req.xhr || !req.wantsJSON) {
       return res.view({layout: '/layouts/dashboardLayout'});
     }
     else {
@@ -142,6 +148,21 @@ module.exports = {
 
       async.parallel(jobs, asyncComplete(req, res));
     }
+  },
+
+  getPolls: function (req, res) {
+    var parameters = getParameters(req);
+
+    var jobs = [
+      function (next) {
+        Poll.find(parameters).exec(next);
+      },
+      function (next) {
+        Poll.count(next)
+      }
+    ];
+
+    async.parallel(asyncComplete(req, res));
   },
 
   selectActors: function (req, res) {

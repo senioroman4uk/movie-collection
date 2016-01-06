@@ -21,7 +21,7 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-  // middleware: {
+  middleware: {
 
   /***************************************************************************
   *                                                                          *
@@ -31,6 +31,7 @@ module.exports.http = {
   ***************************************************************************/
 
     // order: [
+  //   'responseTimeLogger',
     //   'startRequestTimer',
     //   'cookieParser',
     //   'session',
@@ -47,6 +48,13 @@ module.exports.http = {
     //   '404',
     //   '500'
     // ],
+
+  responseTimeLogger: function (req, res, next) {
+    req.on("end", function () {
+      sails.log.info('response time: ' + (new Date() - req._startTime) + 'ms');
+    });
+    next();
+  },
 
   /****************************************************************************
   *                                                                           *
@@ -69,9 +77,9 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // bodyParser: require('skipper')
+    //bodyParser: require('skipper')
 
-  // },
+  },
 
   /***************************************************************************
   *                                                                          *

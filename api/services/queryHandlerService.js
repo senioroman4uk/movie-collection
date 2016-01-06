@@ -9,6 +9,7 @@ var fs = require('fs');
 
 var findOneHandler = function (req, res, itemName) {
   return function (error, item) {
+    console.log(new Date().getMilliseconds());
     if (error)
       return res.serverError(error);
     else if (!!item === false)

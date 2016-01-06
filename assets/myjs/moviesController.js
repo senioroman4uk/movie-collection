@@ -101,8 +101,8 @@ var showModal = function ($el, row) {
       $('[name="genres"]').val(selectedGenres);
       var selectedActors = [];
       data.actors.forEach(function(actor) {
-        selectedActors.push(actor.id);
-        $('[name="actors"]').append('<option value="' + actor.id + '">' + actor.firstName + ' ' + actor.lastName
+        selectedActors.push(item.id);
+        $('[name="actors"]').append('<option value="' + item.id + '">' + item.firstName + ' ' + item.lastName
           + '</option>')
       });
       $('[name="actors"]').val(selectedActors).trigger("change");

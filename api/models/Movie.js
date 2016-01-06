@@ -1,10 +1,11 @@
 /**
-* Movie.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
-var fs = require('fs');
+ * Movie.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
+
+var async = require('async');
 
 module.exports = {
 
@@ -38,7 +39,7 @@ module.exports = {
 
     cover: {
       type: 'string',
-      defaultsTo: ''
+      required: true
     },
 
     rating: {
@@ -88,13 +89,24 @@ module.exports = {
     },
     rating: {
       float: 'Rating must be a float'
-    },
+    }
   },
 
   beforeValidate: function (values, cb) {
     if (!!values['link'] === false)
       values['link'] = [values.name, values.year].join('-').toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "-");
     cb();
+  },
+
+  afterCreate: coverService.moveToAssets('movies'),
+
+  afterUpdate: coverService.moveToAssets('movies'),
+
+
+  afterDestroy: function (records, cb) {
+    async.each(records, function (record, callback) {
+      utilService.coverService(record, 'movies', callback);
+    }, cb);
   }
 };
 

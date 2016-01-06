@@ -32,8 +32,10 @@ module.exports.bootstrap = function(cb) {
 
   function getPages(next){
     sails.models['page'].find().sort('order').exec(function (err, pages) {
-      if (err)
+      if (err) {
         next(err);
+        return;
+      }
 
       sails.config.pages = pages;
       for (var i = 0; i < pages.length; i++)
