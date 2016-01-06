@@ -5,10 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-var path = require('path');
 var rss = require('node-rss');
-var xml = require('xml-writer');
-var fs = require('fs');
 
 
 module.exports = {
@@ -56,67 +53,10 @@ module.exports = {
 
   findOne: function (req, res) {
     var link = req.param('link', '');
-    Actor.findOneByLink(link).populate('movies', {sort: 'year'}).exec(queryHandlerService.findOne(req, res, 'actor'));
+    Actor.findOneByLink(link).populate('movies', {sort: 'year DESC'}).exec(queryHandlerService.findOne(req, res, 'actor'));
   },
 
-  update: function (req, res) {
-    req.file('cover').upload({
-      dirname: '../../assets/images/actors',
-      maxBytes: 10000000
-    }, function whenDone(err, uploadedFiles) {
-      if (err)
-        return res.negotiate(err);
+  update: actionService.updateAction('actor', ['movies']),
 
-      var data = req.params.all();
-      if (!!data.birthDate === true) {
-        var parts = data.birthDate.split('.');
-        var day = parts[0];
-        parts[0] = parts[1];
-        parts[1] = day;
-        data['birthDate'] = new Date(parts.join('.'));
-      }
-      var id = data['id'];
-      delete data['id'];
-
-      if (uploadedFiles.length > 0) {
-        data['cover'] = path.basename(uploadedFiles[0].fd);
-      }
-      Actor.update(id, data).exec(function (err, data) {
-        if (err)
-          return res.badRequest(err);
-
-        return res.json(data);
-      });
-    });
-  },
-
-  create: function (req, res) {
-    req.file('cover').upload({
-      dirname: '../../assets/images/actors',
-      maxBytes: 10000000
-    }, function whenDone(err, uploadedFiles) {
-      if (err)
-        return res.negotiate(err);
-
-      var data = req.params.all();
-      delete data['id'];
-      if (!!data.birthDate === true) {
-        var parts = data.birthDate.split('.');
-        var day = parts[0];
-        parts[0] = parts[1];
-        parts[1] = day;
-        data['birthDate'] = new Date(parts.join('.'));
-      }
-
-      if (uploadedFiles.length > 0) {
-        data['cover'] = path.basename(uploadedFiles[0].fd);
-      }
-      Actor.create(data).exec(function (err, data) {
-        if (err)
-          return res.badRequest(err);
-
-        return res.json(data);
-      });
-    });
-  }
+  create: actionService.createAction('actor', ['movies'])
 };

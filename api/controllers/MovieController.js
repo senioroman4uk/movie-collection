@@ -14,13 +14,11 @@ var fs = require('fs');
 
 //Controller Callbacks
 var randomHandler = function (req, res) {
-  return function (error, rows) {
+  return function (error, results) {
     if (error)
       return res.serverError(error);
-    else if (!!rows === false || rows.length === 0)
-      return res.notFound();
     else {
-      var id = rows[0].id;
+      var id = results.rows[0].id;
       Movie.findOne(id).populate('genres').populate('actors').exec(queryHandlerService.findOne(req, res, 'movie'));
     }
   }
@@ -130,66 +128,19 @@ module.exports = {
 
   //Getting information about single random movie
   random: function (req, res) {
-    if (sails.config.environment === 'production')
       Movie.query('SELECT id FROM movie ORDER BY RANDOM() LIMIT 1', randomHandler(req, res));
-    else
-      Movie.query('SELECT id FROM movie ORDER BY RAND() LIMIT 1', randomHandler(req, res));
   },
 
-  update: function (req, res) {
-    req.file('cover').upload({
-      dirname: '../../assets/images/movies',
-      maxBytes: 10000000
-    }, function whenDone(err, uploadedFiles) {
-      if (err)
-        return res.negotiate(err);
+  update: actionService.updateAction('movie', ['genres', 'actors']),
 
-      var data = req.params.all();
-      var id = data['id'];
-      delete data['id'];
-
-      if (uploadedFiles.length > 0) {
-        data['cover'] = path.basename(uploadedFiles[0].fd);
-      }
-      Movie.update(id, data).exec(function (err, data) {
-        if (err)
-          return res.badRequest(err);
-
-        return res.json(data);
-      });
-    });
-
-  },
-
-  create: function (req, res) {
-    req.file('cover').upload({
-      dirname: '../../assets/images/movies',
-      maxBytes: 10000000
-    }, function whenDone(err, uploadedFiles) {
-      if (err)
-        return res.negotiate(err);
-
-      var data = req.params.all();
-      delete data['id'];
-
-      if (uploadedFiles.length > 0) {
-        data['cover'] = path.basename(uploadedFiles[0].fd);
-      }
-      Movie.create(data).exec(function (err, data) {
-        if (err)
-          return res.badRequest(err);
-
-        return res.json(data);
-      });
-    });
-  },
+  create: actionService.createAction('movie', ['genres', 'actors']),
 
   destroy: function (req, res) {
     var id = req.param('id');
 
     Movie.destroy(id, function (error, data) {
       if (error)
-        return res.serverError(error);
+        return res.negotiate(error);
       return res.json(data);
     });
   }
