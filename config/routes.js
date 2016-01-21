@@ -60,6 +60,10 @@ module.exports.routes = {
     action: 'findAnswered'
   },
 
+  'get /users/:id/edit': 'UserController.edit',
+
+  'get /users/:name': 'UserController.findOneByName',
+  // dashboard routes
   'get /dashboard': {
     controller: 'Dashboard',
     action: 'index'
@@ -95,6 +99,20 @@ module.exports.routes = {
     action: 'getMessages'
   },
 
+  'get /dashboard/polls': {
+    controller: 'Dashboard',
+    action: 'getPolls'
+  },
+
+  'get /dashboard/polls/:pollId/options': {
+    controller: 'Dashboard',
+    action: 'getPollOptions',
+  },
+
+  'get /dashboard/slides': 'Dashboard.showSlides',
+
+  // END of Dashboard routes
+
   'post /movies/update': {
     controller: 'Movie',
     action: 'update'
@@ -108,6 +126,11 @@ module.exports.routes = {
   'post /pages/update': {
     controller: 'Page',
     action: 'update'
+  },
+
+  'post /polls/:poll/options/create': {
+    controller: 'Poll',
+    action: 'createOption'
   },
 
   //#SECTION: routes for select2 control in dashboard
@@ -134,10 +157,12 @@ module.exports.routes = {
   },
   //END SECTION
 
+  'post /vote': 'PollController.vote',
+  'get /dashboard/poll-options/destroy/:id': 'PollController.destroyOption',
+
   'get /actors/:link': 'ActorController.findOne',
   'get /movies/:link': 'MovieController.findOne',
-  'get /header': 'PageController.getHeader',
-  'get /xmlTest': {view: 'xmlTest'}
+  'get /header': 'PageController.getHeader'
 
   /***************************************************************************
   *                                                                          *

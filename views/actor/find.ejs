@@ -7,11 +7,9 @@
   locals.actor = actors[i];
 %>
 <div id="actors">
-  <div data-id="<%- actor.id %>"
-       class="row padding-top-15 padding-bottom-15 bottom-30 <%- i % 2 != 0 ? 'delimiter' : 'white-row' %>">
+  <div class="row padding-top-15 padding-bottom-15 bottom-30 <%- i % 2 != 0 ? 'delimiter' : 'white-row' %>">
     <%- partial('../partials/actor') %>
   </div>
 </div>
 <% } %>
 <%- partial('../partials/pagination') %>
-<script type="text/javascript" src="/myjs/pages/actorsController.js"></script>

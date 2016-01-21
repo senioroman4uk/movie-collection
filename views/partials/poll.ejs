@@ -1,0 +1,30 @@
+<% if (activePoll != null) { %>
+<div class="poll">
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active">
+      <a href="#options" data-toggle="tab">Options</a>
+    </li>
+    <li role="presentation">
+      <a href="#results" data-toggle="tab">Voating results</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div id="options" class="tab-pane active in">
+      <form method="post" action="/vote">
+        <% for (var i = 0; i < activePoll.options.length; i++) { %>
+        <label>
+          <input type="radio" name="option" value="<%- activePoll.options[i].id %>">
+          <%- activePoll.options[i].text %>
+        </label>
+        <% } %>
+        <br>
+        <button class="btn btn-primary">Vote</button>
+      </form>
+    </div>
+    <div id="results" class="tab-pane fade">
+      <h3>Menu 1</h3>
+      <p>Some content in menu 1.</p>
+    </div>
+  </div>
+</div>
+<% } %>

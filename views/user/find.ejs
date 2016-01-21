@@ -1,0 +1,17 @@
+<br>
+<% for (var i = 0; i < users.length; i++) { %>
+<div class="row">
+  <div class="media">
+    <div class="media-left media-middle">
+      <img src="/images/users/<%- users[i].cover %>" width="100px" class="img-responsive avatar"
+           alt="<%- users[i].name %>">
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading"><a href="/users/<%- users[i].name %>"><%- users[i].name %></a></h4>
+      <b>Email: </b> <%- users[i].email %>
+    </div>
+  </div>
+</div>
+<% } %>
+<%- partial('../partials/pagination') %>
+<br>

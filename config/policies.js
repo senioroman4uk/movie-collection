@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': ['flash', 'pages'],
+  '*': ['flash', 'pages', 'poll'],
 
   DashboardController: {
     '*': ['flash', 'pages', 'sessionAdmin']
@@ -34,6 +34,24 @@ module.exports.policies = {
 
   GenreController: {
     '*': ['flash', 'pages', 'sessionAdmin']
+  },
+
+  MovieController: {
+    'find': ['flash', 'pages', 'poll', 'slides']
+  },
+
+  CommentController: {
+    '*': ['flash', 'pages', 'poll', 'slides'],
+    'create': ['flash', 'pages', 'poll', 'slides', 'sessionAuth']
+  },
+
+  UserController: {
+    '*': ['flash', 'pages', 'poll'],
+    'update': ['flash', 'pages', 'poll', 'sessionAuth', 'current'],
+    'find': ['flash', 'pages', 'poll', 'sessionAuth'],
+    'findOne': ['flash', 'pages', 'poll', 'sessionAuth'],
+    'findOneByName': ['flash', 'pages', 'poll', 'sessionAuth'],
+    'edit': ['flash', 'pages', 'poll', 'sessionAuth', 'current']
   }
 
   /***************************************************************************

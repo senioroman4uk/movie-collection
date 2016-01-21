@@ -51,7 +51,7 @@ module.exports = {
   //TODO: Refactor
   find: function (req, res) {
     var page = req.param('page', 1) || 1,
-      limit = Math.min(req.param('limit', 10), 10);
+      limit = Math.min(req.param('limit', 5), 5);
     var where = {};
     var allowedParameters = ['year'];
 

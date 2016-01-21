@@ -63,6 +63,12 @@
                 <li> <a href="/dashboard/genres"><span class="glyphicon glyphicon-tags"></span> Genres</a></li>
                 <li><a href="/dashboard/messages"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
                 <li><a href="/dashboard/pages"><span class="glyphicon glyphicon-bookmark"></span> Pages</a></li>
+                <li><a href="/dashboard/slides"><span class="glyphicon glyphicon-picture"></span> Slides</a></li>
+                <li>
+                  <a href="/dashboard/polls">
+                    <span class="glyphicon glyphicon-stats"></span> Polls
+                  </a>
+                </li>
                 <!--<li><a href="#"><i class="glyphicon glyphicon-user"></i> Users</a></li>-->
               </ul>
             </li>
@@ -70,6 +76,7 @@
 
         </div>
         <div class="col-md-9">
+          <%- partial('../partials/flash') %>
           <%- body %>
         </div>
       </div>

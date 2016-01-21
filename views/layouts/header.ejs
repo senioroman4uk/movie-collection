@@ -1,5 +1,6 @@
 <header>
   <nav class="navbar navbar-inverse">
+    <h1 class="hidden">Navigation</h1>
     <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"
@@ -22,21 +23,26 @@
           <li><a href="<%- _pages[i].link %>"><%- _pages[i].name %></a></li>
           <% } %>
           <% if (req.session.authenticated && req.session.user) { %>
-          <li><a class="logoutButton" href="/logout"><i class="glyphicon glyphicon-off"></i></a></li>
+          <li><a class="logoutButton" href="/logout"><i class="glyphicon glyphicon-log-out"></i></a></li>
+          <li>
+            <a class="" href="/users/<%- req.session.user.name %>">
+              <span class="glyphicon glyphicon-user"></span>
+            </a>
+          </li>
           <% }
           else { %>
           <li>
             <a href="/login">
-              <span class="glyphicon glyphicon-user"></span>
+              <span class="glyphicon glyphicon-log-in"></span>
               <span class="hidden">Login</span>
             </a>
           </li>
           <% }%>
           <li>
-            <a href="/search" title="Search">
-              <span class="glyphicon glyphicon-search"></span>
-              <span class="hidden">Search</span>
-            </a>
+            <!--<a href="/search" title="Search">-->
+            <!--<span class="glyphicon glyphicon-search"></span>-->
+            <!--<span class="hidden">Search</span>-->
+            <!--</a>-->
           </li>
         </ul>
       </div>

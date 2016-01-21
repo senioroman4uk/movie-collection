@@ -28,6 +28,7 @@ module.exports = {
   },
 
   create: function (req, res) {
+    sails.log.warn('test');
     var allowedParameters = ['name', 'email', 'password', 'repeatPassword'];
     var data = {};
 
@@ -56,7 +57,7 @@ module.exports = {
     data['salt'] = crypto.randomBytes(128).toString('hex');
     data['password'] = crypto.pbkdf2Sync(data['password'], data['salt'], 4096, 128, 'sha512').toString('hex');
     // normal user
-    data['role'] = 1;
+    data['access'] = 1;
 
     User.create(data, function (error, user) {
       if (error) {
@@ -93,5 +94,44 @@ module.exports = {
         });
       }
     });
-  }
+  },
+
+  find: function (req, res) {
+    var limit = Math.min(req.param('limit', 10), 20);
+    var page = req.param('page', 1);
+
+    var jobs = [
+      function (next) {
+        User.find().paginate({page: page, limit: limit}).exec(next);
+      },
+
+      function (next) {
+        User.count().exec(next);
+      }
+    ];
+
+    async.parallel(jobs, queryHandlerService.find(req, res, limit, page, {}, 'user', 'users', []));
+
+
+    User.find({}).paginate(page, limit).exec(function (err, users) {
+
+    });
+  },
+
+  findOneByName: function (req, res) {
+    User.findOne({name: req.param('name')}, queryHandlerService.findOne(req, res, 'user'));
+  },
+
+  edit: function (req, res) {
+    var id = req.param('id');
+
+    User.findOne(id).exec(function (err, user) {
+      if (err)
+        return res.negotiate(err);
+
+      return res.view({user: user});
+    });
+  },
+
+  update: actionService.updateAction('user', [], true)
 };

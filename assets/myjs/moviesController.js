@@ -36,9 +36,7 @@ var saveHandler = function() {
     type: 'POST',
     success: function(data) {
       table.bootstrapTable('refresh');
-      setTimeout(function () {
         $('#cover').attr('src', '/images/movies/' + (!!data[0] ? data[0].cover : data.cover));
-      }, 5000);
       showModalMessage('success', 'Saved successfully')
     },
     error: function() {
@@ -101,8 +99,8 @@ var showModal = function ($el, row) {
       $('[name="genres"]').val(selectedGenres);
       var selectedActors = [];
       data.actors.forEach(function(actor) {
-        selectedActors.push(item.id);
-        $('[name="actors"]').append('<option value="' + item.id + '">' + item.firstName + ' ' + item.lastName
+        selectedActors.push(actor.id);
+        $('[name="actors"]').append('<option value="' + actor.id + '">' + actor.firstName + ' ' + actor.lastName
           + '</option>')
       });
       $('[name="actors"]').val(selectedActors).trigger("change");

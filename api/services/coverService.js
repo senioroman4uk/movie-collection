@@ -8,6 +8,8 @@ var fs = require('fs');
 
 function deleteCover(dir, record, subdir) {
   return function (next) {
+    if (!record.cover)
+      next();
     var filePath = path.resolve(sails.config.appPath, dir + '/images/' + subdir + '/', record.cover);
     fs.exists(filePath, function (exists) {
       if (exists) {
@@ -29,6 +31,7 @@ module.exports = {
 
   moveToAssets: function (type) {
     return function (record, cb) {
+      sails.log.warn(path.resolve(sails.config.appPath, '.tmp/public/images/' + type + '/' + record.cover));
       var src = path.resolve(sails.config.appPath, '.tmp/public/images/' + type + '/' + record.cover);
       fs.exists(src, function (exists) {
         if (exists) {

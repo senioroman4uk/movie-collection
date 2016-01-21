@@ -35,8 +35,8 @@ module.exports = {
   },
 
   find: function (req, res) {
-    var page = req.param('page', 1) || 1,
-      limit = Math.min(req.param('limit', 1), 10);
+    var page = req.param('page', 1),
+      limit = Math.min(req.param('limit', 5), 5);
 
     var jobs = [
       function (next) {

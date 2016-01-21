@@ -6,46 +6,108 @@
 
 var xml = require('xml-writer');
 var fs = require('fs');
+var async = require('async');
 
 var findOneHandler = function (req, res, itemName) {
   return function (error, item) {
-    console.log(new Date().getMilliseconds());
     if (error)
       return res.serverError(error);
     else if (!!item === false)
       return res.notFound();
     else {
-      var type = req.accepts(['html', 'xml', 'json']);
-      var data = {};
-      switch (type) {
-        case 'html' :
-          data = {title: item.getName(), hideReadMore: true, _moment: sails.moment};
-          data[itemName] = item;
-          return res.view(itemName + '/findone', data);
-          break;
-        case 'json' :
-          data = {title: item.getName(), hideReadMore: true, _moment: sails.moment, layout: null};
-          data[itemName] = item;
-          sails.hooks.views.render(itemName + '/findone', data, function (error, html) {
-            if (error)
-              return res.serverError(error);
-            return res.json(200, {title: utilService.makeTitle(item.getName()), html: html})
+      var page = req.param('page');
+      var limit = req.param('limit');
+      var context = this;
+
+      Comment.find({
+        articleType: itemName,
+        articleId: item.id
+      }).populate('author').paginate(page, limit).exec(function (err, comments) {
+          if (err) {
+            sails.log.error(err);
+            comments = [];
+          }
+
+          context.comments = _.cloneDeep(comments);
+
+          var jobs = [
+            function (next) {
+              async.map(comments, function (comment, nextComment) {
+                var sql = 'SELECT c.id ' +
+                  'FROM comment c ' +
+                  'JOIN commentstreepath tp on (c.id = tp.descendant AND c."articleId" = 0) ' +
+                  'WHERE tp.ancestor = ' + comment.id + ' ORDER BY c.level';
+
+                Comment.query(sql, nextComment);
+              }, next);
+            },
+
+            function (resultsOfQueries, next) {
+              async.map(resultsOfQueries, function (queryResult, nextComment) {
+                var ids = [];
+
+                queryResult.rows.forEach(function (value) {
+                  ids.push(value.id);
+                });
+
+                return nextComment(null, ids);
+              }, next);
+            },
+
+            function (resultIds, next) {
+              async.map(resultIds, function (ids, cb) {
+                Comment.find(ids).populate('author').sort('level asc').exec(cb);
+              }, next)
+            }
+
+          ];
+
+          async.waterfall(jobs, function (err, children) {
+            if (err) {
+              sails.log.error(err);
+              return res.negotiate(err);
+            }
+
+            children.forEach(function (subComments, index) {
+              context.comments[index].children = subComments;
+            });
+
+            var type = req.accepts(['html', 'xml', 'json']);
+            var data = {comments: context.comments, articleName: itemName};
+
+            switch (type) {
+              case 'html' :
+                data = _.extend(data, {title: item.getName(), hideReadMore: true, _moment: sails.moment});
+                data[itemName] = item;
+                return res.view(itemName + '/findone', data);
+                break;
+              case 'json' :
+                data = {title: item.getName(), hideReadMore: true, _moment: sails.moment, layout: null};
+                data[itemName] = item;
+                sails.hooks.views.render(itemName + '/findone', data, function (error, html) {
+                  if (error)
+                    return res.serverError(error);
+                  return res.json(200, {title: utilService.makeTitle(item.getName()), html: html})
+                });
+                break;
+              case 'xml':
+                var xw = new xml().startDocument();
+                xw = itemToXml(item, xw, itemName);
+                xw = xw.endElement(itemName).endDocument();
+                res.set('Content-Type', 'application/xml');
+                return res.send(200, xw.toString());
+                break;
+              default :
+                return res.badRequest();
+                break;
+            }
           });
-          break;
-        case 'xml':
-          var xw = new xml().startDocument();
-          xw = itemToXml(item, xw, itemName);
-          xw = xw.endElement(itemName).endDocument();
-          res.set('Content-Type', 'application/xml');
-          return res.send(200, xw.toString());
-          break;
-        default :
-          return res.badRequest();
-          break;
+        }
+      );
       }
     }
-  }
 };
+
 //TODO: rethink whereKeys
 var findHandler = function (req, res, limit, page, where, itemName, itemsName, whereKeys) {
   return function (error, data) {
@@ -138,8 +200,6 @@ var findHandler = function (req, res, limit, page, where, itemName, itemsName, w
   }
 };
 
-//Test for array.
-//Maybe without recursion?
 var itemToXml = function (item, xw, itemName) {
   item = _.clone(item);
   xw = xw.startElement(itemName);

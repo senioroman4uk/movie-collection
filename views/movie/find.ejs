@@ -1,20 +1,23 @@
-  <%- partial('../partials/flash')%>
-  <div class="row delimiter">
-    <div class="col-md-6">
-      <h4 class="uppercase">We have such movies</h4>
-    </div>
+<%- partial('../partials/flash') %>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.carousel').Carousel();
+  });
+</script>
+<div class="row delimiter">
+  <div class="col-md-6">
+    <h4 class="uppercase">We have such movies</h4>
   </div>
+</div>
+<%- partial('../partials/carousel') %>
 
-  <div id="movies">
-
-    <% for(var i = 0; i < movies.length; i++) {
-       locals.movie = movies[i];
+<div id="movies">
+  <% for(var i = 0; i < movies.length; i++) {
+    locals.movie = movies[i];
   %>
-    <div data-id="<%- movie.id %>"
-         class="row padding-top-15 padding-bottom-15 bottom-30 <%- i % 2 != 0 ? 'delimiter' : 'white-row' %>">
-         <%- partial('../partials/movie') %>
-       </div>
-  <% } %>
+  <div class="row padding-top-15 padding-bottom-15 bottom-30 <%- i % 2 != 0 ? 'delimiter' : 'white-row' %>">
+    <%- partial('../partials/movie') %>
   </div>
-  <%- partial('../partials/pagination') %>
-  <script type="text/javascript" src="/myjs/pages/moviesController.js"></script>
+  <% } %>
+</div>
+<%- partial('../partials/pagination') %>

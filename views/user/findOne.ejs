@@ -1,0 +1,18 @@
+<div class="row">
+  <section>
+    <h1>
+      <img src="/images/users/<%- user.cover %>" class="avatar"
+           alt="<%- user.name %>">
+      <%- user.name %>
+      <br>
+      <%- user.email %>
+    </h1>
+    <section>
+      <h1>About</h1>
+      <p><%- user.about %></p>
+    </section>
+  </section>
+  <% if (typeof req.session.user !== 'undefined' && req.session.user.id === user.id) { %>
+  <a class="btn btn-default" href="/users/<%- user.id %>/edit">Edit profile</a>
+  <% } %>
+</div>

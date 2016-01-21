@@ -9,11 +9,11 @@
     <% if (typeof actor !== 'undefined' && actor) {%>
     <meta content="/inages/actors/<%- actor.cover %>" property="og:image">
     <meta content="<%- actor.firstName + ' ' + actor.lastName %>" property="og:title">
-    <meta content="<%- actor.generalInfo %>" property="og:description">
+    <meta content="<%= actor.generalInfo %>" property="og:description">
    <%} else if (typeof  movie !== 'undefined' && movie) {%>
     <meta content="/images/movies/<%- movie.cover %>" property="og:image">
-    <meta content="<%- movie.name %>" property="og:title">
-    <meta content="<%- movie.description %>" property="og:description">
+    <meta content="<%- movie.name %> (<%- movie.year %>)" property="og:title">
+    <meta content="<%= movie.description %>" property="og:description">
     <% }%>
     <!--
         Stylesheets and Preprocessors
@@ -41,16 +41,30 @@
     <link rel="stylesheet" href="/bower_components/tooltipster/css/tooltipster.css">
     <link rel="stylesheet" href="/bower_components/bootstrap-table/dist/bootstrap-table.css">
     <link rel="stylesheet" href="/styles/app.css">
+    <link rel="stylesheet" href="/styles/carousel.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
-
+    <!--SCRIPTS-->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/bower_components/tooltipster/js/jquery.tooltipster.js"></script>
+    <script src="/bower_components/ejs/ejs.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
+    <script src="/js/footerController.js"></script>
+    <script src="/js/modernizr.js"></script>
+    <script src="/js/myCarousel.js"></script>
+    <script src="/js/pager.js"></script>
+    <!--SCRIPTS END-->
   </head>
 
   <body>
+  <h1 class="hidden"><%- utilService.makeTitle(typeof title != 'undefined' ? title : '') %></h1>
   <div id="container" class="container">
     <%- partial ('header.ejs')%>
     <main id="content" class="container-fluid">
       <%- body %>
+      <br>
     </main>
     <%- partial ('footer.ejs')%>
   </div>
@@ -80,7 +94,7 @@
 
     <!--TEMPLATES-->
 
-    <!--TEMPLATES END-->
+  <!--TEMPLATES END-->
 
 
     <!--
@@ -105,15 +119,6 @@
           + Use a different preprocessor, like TypeScript
 
     -->
-  <!--SCRIPTS-->
-  <script src="/bower_components/jquery/dist/jquery.js"></script>
-  <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="/bower_components/tooltipster/js/jquery.tooltipster.js"></script>
-  <script src="/bower_components/ejs/ejs.js"></script>
-  <script src="/bower_components/moment/moment.js"></script>
-  <script src="/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
-  <script src="/js/footerController.js"></script>
-  <script src="/js/pager.js"></script>
-  <!--SCRIPTS END-->
+
   </body>
 </html>

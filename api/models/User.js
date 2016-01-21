@@ -12,7 +12,8 @@ module.exports = {
       type: 'string',
       size: 100,
       maxLength: 100,
-      required: true
+      required: true,
+      unique: true
     },
     email: {
       type: 'email',
@@ -38,10 +39,27 @@ module.exports = {
       size: 256
     },
 
-    //pollResults: {
-    //  collection: 'pollResult',
-    //  via: 'user'
-    //}
+    pollResults: {
+      collection: 'pollResult',
+      via: 'user'
+    },
+
+    comments: {
+      collection: 'comment',
+      via: 'author'
+    },
+
+    'getName': function () {
+      return this.name;
+    },
+
+    cover: {
+      type: 'string'
+    },
+
+    about: {
+      type: 'text'
+    }
   },
   validationMessages: {
     name: {
@@ -58,6 +76,16 @@ module.exports = {
       required: 'Password is required',
       maxLength: 'Too long value for password, maximum is 255'
     }
+  },
+
+  afterUpdate: coverService.moveToAssets('users'),
+
+  afterCreate: coverService.moveToAssets('users'),
+
+  afterDestroy: function (records, cb) {
+    async.each(records, function (record, callback) {
+      coverService.completeDeleteCover(record, 'users', callback);
+    }, cb);
   }
 };
 

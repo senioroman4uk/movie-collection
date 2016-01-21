@@ -1,0 +1,45 @@
+<%- partial('../partials/flash') %>
+<form class="form-inline" action="/polls/create">
+  <label for="summary">Poll summary</label>
+  <input class="form-control" type="text" name="summary" id="summary">
+  <label for="active">Active</label>
+  <input class="form-control" type="checkbox" name="active" id="active">
+  <button class="btn btn-primary" type="submit">Create poll</button>
+</form>
+<% if (rows.length > 0) { %>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th class="th">Id</th>
+    <th class="th">Summary</th>
+    <th class="th">Active</th>
+    <th class="th">Created at</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% for(var i = 0; i < rows.length; i++) { %>
+  <tr>
+    <% for(var j = 0; j < properties.length; j++) { %>
+    <td>
+      <form class="form-inline" name="attributeUpdate" method="post" action="/polls/update">
+        <input type="hidden" name="id" value="<%- rows[i]['id'] %>">
+        <input class="form-control" name="<%- properties[j] %>" type="text" value="<%- rows[i][properties[j]] %>">
+        <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span></button>
+      </form>
+    </td>
+    <% } %>
+    <td>
+      <a href="/polls/destroy/<%- rows[i].id %>" class="btn btn-sm btn-danger">
+        <span class="glyphicon glyphicon-erase"></span>
+      </a>
+      <a class="btn btn-default" href="/dashboard/polls/<%- rows[i].id %>/options">
+        <span class="glyphicon glyphicon-list"></span>
+      </a>
+    </td>
+  </tr>
+  <% } %>
+  </tbody>
+</table>
+<% } else { %>
+<h2 class="alert-warning">There are no polls yet</h2>
+<% } %>

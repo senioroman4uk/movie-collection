@@ -23,6 +23,10 @@
     <% if (typeof(hideReadMore) === 'undefined' || !hideReadMore) {%>
     <a class="btn btn-large btn-primary" href="/movies/<%- movie.link %>">Read more</a>
     <% }%>
-    <span class="pull-right"> Created at: <%- _moment(movie.createdAt).format('DD.MM.YYYY HH:mm:ss') %></span>
+    <span class="pull-right"> Created at:
+     <time datetime="<%- _moment(movie.createdAt).format('DD.MM.YYYY HH:mm:ss') %>">
+       <%- _moment(movie.createdAt).format('DD.MM.YYYY HH:mm:ss') %>
+     </time>
+    </span>
   </div>
 

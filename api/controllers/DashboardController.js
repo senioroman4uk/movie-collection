@@ -3,12 +3,20 @@
  */
 
 var async = require('async');
-var asyncComplete = function (req, res) {
+var asyncComplete = function (req, res, model, properties) {
   return function (error, data) {
     if (error)
       return res.serverError(error);
-    else
-      return res.json({rows: data[0], total: data[1]})
+
+    var vm = {rows: data[0], total: data[1]};
+
+    if (req.wantsJSON || typeof model === 'undefined')
+      return res.json(vm);
+    else {
+      vm['properties'] = properties;
+      vm['layout'] = '/layouts/dashboardLayout';
+      return res.view('dashboard/get' + model + 's', vm);
+    }
   }
 };
 
@@ -162,7 +170,40 @@ module.exports = {
       }
     ];
 
-    async.parallel(asyncComplete(req, res));
+    async.parallel(jobs, asyncComplete(req, res, 'Poll', ['id', 'summary', 'active', 'createdAt']));
+  },
+
+  getPollOptions: function (req, res) {
+    var parameters = getParameters(req);
+    var pollId = req.param('pollId');
+    parameters['where'] = {poll: pollId};
+    res.locals['pollId'] = pollId;
+
+    var jobs = [
+      function (next) {
+        PollOption.find(parameters).exec(next);
+      },
+      function (next) {
+        PollOption.count(parameters['where']).exec(next);
+      }
+    ];
+
+    async.parallel(jobs, asyncComplete(req, res, 'PollOption', ['id', 'text', 'votesFor']));
+  },
+
+  showSlides: function (req, res) {
+    var parameters = getParameters(req);
+
+    var jobs = [
+      function (next) {
+        Slide.find(parameters).exec(next);
+      },
+      function (next) {
+        Slide.count(next)
+      }
+    ];
+
+    async.parallel(jobs, asyncComplete(req, res, 'Slide', ['title', 'link', 'image']));
   },
 
   selectActors: function (req, res) {

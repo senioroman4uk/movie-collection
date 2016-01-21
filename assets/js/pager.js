@@ -8,25 +8,23 @@ function Pager(options) {
 
   var updateHistory = function (url) {
     var href = url || '';
-    if (href === '') {
-      if (location.href.split('?').length === 1)
-        href = location.href + '?page=' + currentPage;
-      else {
-        var matches = location.href.match(pageRegex);
-        if (matches)
-          href = location.href.replace('page=' + matches[1], 'page=' + currentPage);
-        else
-          href = location.href + '&page=' + currentPage;
-      }
-    }
+    //if (href === '') {
+    //  if (location.href.split('?').length === 1)
+    //    href = location.href + '?page=' + currentPage;
+    //  else {
+    //    var matches = location.href.match(pageRegex);
+    //    if (matches)
+    //      href = location.href.replace('page=' + matches[1], 'page=' + currentPage);
+    //    else
+    //      href = location.href + '&page=' + currentPage;
+    //  }
+    //}
 
     history.pushState({href: href}, document.title, href);
   };
   window.history.replaceState({'href': initialURL}, document.title, window.location.href);
 
   $(window).bind("popstate", function (e) {
-    //e.preventDefault();
-
     var initialPop = !popped && location.href == initialURL;
     popped = true;
     if (initialPop)
@@ -39,17 +37,16 @@ function Pager(options) {
 
   var updateHeader = function updateHeader() {
     $.get('/header', function (html) {
-      $('header').remove();
-      $('#container').prepend(html);
+      $('header').replaceWith(html);
     }, 'html');
   };
 
-  var unbind = function () {
-    $(window).unbind('scroll');
-    $(window).unbind('popstate');
-    $(document).off('click', 'a:not(.logoutButton)');
-    $(document).off('click', 'a.logoutButton');
-  };
+  //var unbind = function () {
+  //  $(window).unbind('scroll');
+  //  $(window).unbind('popstate');
+  //  $(document).off('click', 'a:not(.logoutButton)');
+  //  $(document).off('click', 'a.logoutButton');
+  //};
 
   options = options || {};
   var pageRegex = /[?&]page=([^&]+)/;
@@ -126,11 +123,11 @@ function Pager(options) {
 
 
   //Adding existing ids
-  $('#' + items).children(itemContainer).each(function () {
-    var currentId = parseInt($(this).attr('data-id'));
-    if (existingIds.indexOf(currentId) < 0)
-      existingIds.push(currentId);
-  });
+  //$('#' + items).children(itemContainer).each(function () {
+  //  var currentId = parseInt($(this).attr('data-id'));
+  //  if (existingIds.indexOf(currentId) < 0)
+  //    existingIds.push(currentId);
+  //});
 
   return {
     scrollHandler: function () {
@@ -146,7 +143,7 @@ function Pager(options) {
 
       event.preventDefault();
 
-      if (currentXhr)
+      if (currentXhr && inProcess)
         currentXhr.abort();
 
       redirectAjaxOptions['success'] = function (href) {
@@ -175,7 +172,7 @@ function Pager(options) {
         type: 'GET',
         data: {isAjax: true},
         success: function (data) {
-          unbind();
+          //unbind();
 
           document.title = data.title;
           history.pushState({}, document.title, '/');
@@ -186,6 +183,6 @@ function Pager(options) {
 
     },
 
-    unbind: unbind
+    //unbind: unbind
   }
 }

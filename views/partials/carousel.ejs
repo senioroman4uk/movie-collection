@@ -1,0 +1,16 @@
+<% if (typeof _slides !== 'undefined') { %>
+<div class="carousel">
+  <div class="inner">
+    <% for (var i = 0; i < _slides.length; i++) { %>
+    <div class="slide <%- i === 0 ? 'active' : '' %>">
+      <img class="img img-responsive" src="/images/<%- _slides[i].image.trim('/') %>" alt="<%- _slides[i].title %>">
+      <div class="carousel-caption">
+        <h3><a href="<%- _slides[i].link %>"><%- _slides[i].title %></a></h3>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <div class="arrow arrow-left"></div>
+  <div class="arrow arrow-right"></div>
+</div>
+<% } %>

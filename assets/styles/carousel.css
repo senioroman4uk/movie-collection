@@ -1,7 +1,7 @@
 .carousel {
   width: 100%;
   position: relative;
-  padding-top: 60%;
+  padding-top: 40%;
   overflow: hidden;
 }
 
@@ -165,7 +165,7 @@
 }
 
 .indicators li.active {
-  background: #93278f
+  background: #337ab7
 }
 
 .indicators li:hover {
@@ -190,7 +190,7 @@
 }
 
 .arrow:hover {
-  border-color: #93278f
+  border-color: #337ab7
 }
 
 .arrow-left {

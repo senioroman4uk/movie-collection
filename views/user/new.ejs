@@ -1,7 +1,7 @@
 <div class="row bottom-30 top-30">
   <div class="col-sm-6 col-sm-offset-3">
     <div id="profile">
-      <form name="activityForm" action="/users/create">
+      <form name="activityForm" action="/users/create" method="post">
         <%- partial('../partials/flash') %>
         <div class="form-group">
           <label for="name">Name</label>
@@ -27,4 +27,3 @@
     </div>
   </div>
 </div>
-<script type="text/javascript" src="/myjs/pages/loginController.js"></script>

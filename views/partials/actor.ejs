@@ -10,18 +10,23 @@
 
   </p>
   <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="<%- actor.rating %>"
-         aria-valuemin="0" aria-valuemax="10" style="width: 60%;">
+    <% locals.actorRaiting = typeof actor.raiting === 'function' ? actor.raiting() : 0 %>
+    <div class="progress-bar" role="progressbar" aria-valuenow="<%- locals.actorRaiting %>"
+         aria-valuemin="0" aria-valuemax="10" style="width: <%- locals.actorRaiting + '%' %>;">
     </div>
   </div>
   <p>
     <%- actor.generalInfo %>
     <br>
     <br>
-    Born: <%- actor.birthName + ' ' + _moment(actor.birthDaa).format('DD.MM.YYYY') %> in <%- actor.birthPlace %>
+    Born: <%- actor.birthName + ' ' + _moment(actor.birthDate).format('DD.MM.YYYY') %> in <%- actor.birthPlace %>
   </p>
   <% if (typeof(hideReadMore) === 'undefined' || !hideReadMore) {%>
   <a class="btn btn-large btn-primary" href="/actors/<%- actor.link %>">Read more</a>
   <% } %>
-  <span class="pull-right"> Created at: <%- _moment(actor.createdAt).format('DD.MM.YYYY HH:mm:ss') %></span>
+  <span class="pull-right"> Created at:
+    <time datetime="<%- _moment(actor.createdAt).format('DD.MM.YYYY HH:mm:ss') %>">
+      <%- _moment(actor.createdAt).format('DD.MM.YYYY HH:mm:ss') %>
+    </time>
+  </span>
 </div>

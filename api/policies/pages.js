@@ -59,7 +59,7 @@ module.exports = function(req, res, next) {
       return next(null);
 
     //not authenticated and authentication is required
-    if((!!req.session.user === false) && page.access > 0) {
+    if ((typeof req.session.user === 'undefined') && page.access > 0) {
       req.session.flash.danger.push("You have to log in if you want to enter this page");
       return res.redirect('/login');
     }
@@ -67,8 +67,8 @@ module.exports = function(req, res, next) {
     //
     User.findOne(req.session.user.id, function(err, user) {
       if (err) {
-          console.log(err);
-          return res.serverError();
+        sails.log.error(err);
+        return res.serverError(err);
       }
       //user not found
       if (!!user === false) {

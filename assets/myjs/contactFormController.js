@@ -49,5 +49,3 @@ jQuery(document).ready(function () {
     }).tooltipster('show');
   }
 });
-
-//'<div role="tooltip" class="tooltip tooltip-danger fade righ"><div class="tooltip-arrow" style="top: 20.1754%;"></div><div class="tooltip-inner">Message is required</div></div>'

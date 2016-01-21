@@ -1,7 +1,7 @@
 <article xmlns="http://www.w3.org/1999/html">
-  <section class="row padding-top-15 padding-bottom-15">
+  <div class="row padding-top-15 padding-bottom-15">
     <%- partial('../partials/movie') %>
-  </section>
+  </div>
   <div class="row padding-top-15 padding-bottom-15">
     <div class="col-md-9">
       <section>
@@ -16,7 +16,8 @@
           <% for(var i = 0; i < movie.actors.length; i++) { %>
           <tr>
             <td class="col-md-1">
-              <img class="img-rounded" src="/images/actors/<%- movie.actors[i].cover %>" width="40">
+              <img class="img-rounded" src="/images/actors/<%- movie.actors[i].cover %>" width="40"
+                   alt="<%- [movie.actors[i].firstName, movie.actors[i].middleName, movie.actors[i].lastName].join(' ') + ' photo' %>">
             </td>
             <td class="col-md-3"><%- movie.actors[i].getName() %></td>
             <td></td>
@@ -27,6 +28,9 @@
       </section>
       <% } %>
     </div>
+    <div class="col-md-3">
+
+    </div>
   </div>
+  <%- partial('../partials/comments') %>
 </article>
-<script type="text/javascript" src="/myjs/pages/findOneController.js"></script>
