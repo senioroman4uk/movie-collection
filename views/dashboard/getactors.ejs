@@ -1,0 +1,95 @@
+<h3>Manage Actors</h3>
+<button id="add" class="btn btn-default">Add actor</button>
+<button id="delete" class="btn btn-danger">Delete selected</button>
+<table id="actors" data-toggle="table" data-url="/dashboard/actors" data-pagination="true"
+       data-side-pagination="server" data-checkbox-header="true" data-sortable="true">
+  <thead>
+  <tr>
+    <th data-field="state" data-checkbox="true"></th>
+    <th data-field="id" data-sortable="true">id</th>
+    <th data-field="firstName" data-editable="true" data-sortable="true">firstname</th>
+    <th data-field="middleName" data-editable="true" data-sortable="true">middlename</th>
+    <th data-field="lastName" data-editable="true" data-sortable="true">lastname</th>
+    <th data-field="birthDate" data-editable="true" data-sortable="true">year</th>
+    <th data-field="link" data-editable="true" data-sortable="true">link</th>
+  </tr>
+  </thead>
+</table>
+
+<div class="modal fade" id="modal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit movie</h4>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" method="post" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group hidden">
+                <input type="hidden" name="id" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Firstname</label>
+                <input type="text" placeholder="Enter firstname of actor" name="firstName" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Lastname</label>
+                <input type="text" placeholder="Enter lastname of actor" name="lastName" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Middlename</label>
+                <input type="text" placeholder="Enter middlename of actor" name="middleName" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Date of birth</label>
+                <input type="date" placeholder="Enter date of birth of actor" name="birthDate" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>General info</label>
+                <textarea class="form-control" name="generalInfo"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Biography</label>
+                <textarea class="form-control" name="biography"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Place of birth</label>
+                <input class="form-control" type="text" name="birthPlace">
+              </div>
+              <div class="form-group">
+                <label>Name when born</label>
+                <input class="form-control" type="text" name="birthName">
+              </div>
+              <div class="form-group">
+                <label for="link">Access link</label>
+                <input class="form-control" type="text" name="link">
+              </div>
+              <div class="form-group">
+                <img class="img-responsive" id="cover" src="">
+                <div class="clearfix"></div>
+                <label>Cover</label>
+                <input type="file" value="" name="cover">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Movies</label>
+                <select class="form-control" name="movies" data-placeholder="Select movies" multiple="multiple" style="width: 100%"></select>
+              </div>
+            </div>
+          </div>
+          <div class="for-errors"></div>
+          <button id="save" type="button" class="btn btn-primary">Save</button>
+          <button type="submit" name="preview" value="preview" class="btn btn-default" formtarget="_blank">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="/myjs/baseController.js"></script>
+<script type="text/javascript" src="/myjs/actorsController.js"></script>

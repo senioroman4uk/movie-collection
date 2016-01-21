@@ -1,0 +1,60 @@
+<h3>Manage messages</h3>
+
+<div class="row">
+  <div class="form-group col-md-6">
+    <select id="actions" class="form-control"></select>
+  </div>
+  <button id="apply" class="btn btn-primary">Apply</button>
+</div>
+
+
+<table id="messages" data-toggle="table" data-url="/dashboard/messages" data-pagination="true"
+       data-side-pagination="server" data-checkbox-header="true" data-sortable="true">
+  <thead>
+  <tr>
+    <th data-field="state" data-checkbox="true"></th>
+    <th data-field="id" data-sortable="true">id</th>
+    <th data-field="name" data-sortable="true">name</th>
+    <th data-field="email" data-sortable="true">email</th>
+    <th data-field="message" data-sortable="true" data-editable="true">message</th>
+    <th data-field="ip" data-sortable="true">ip</th>
+    <th data-field="answer" data-sortable="true" data-editable="true">answer</th>
+    <th data-field="createdAt" data-sortable="true">date of creation</th>
+  </tr>
+  </thead>
+</table>
+
+<!-- Modal start-->
+<div class="modal fade" id="modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit page</h4>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" method="post">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Answer</label>
+                <input type="text" class="form-control" name="answer">
+              </div>
+            </div>
+          </div>
+          <div class="for-errors"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="save" type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal END-->
+
+<script type="text/javascript">
+</script>
+<script type="text/javascript" src="/myjs/baseController.js"></script>
+<script type="text/javascript" src="/myjs/messagesController.js"></script>

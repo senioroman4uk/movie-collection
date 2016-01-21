@@ -1,0 +1,15 @@
+<h3>Manage genres</h3>
+<button id="delete" class="btn btn-danger">Delete selected</button>
+<button id="add" class="btn btn-default">Add genre</button>
+<input id="genre" type="text" name="genre">
+<table id="genres" data-toggle="table" data-url="/dashboard/genres" data-pagination="true"
+       data-side-pagination="server" data-checkbox-header="true">
+  <thead>
+  <tr>
+    <th data-field="state" data-checkbox="true"></th>
+    <th data-field="id" data-sortable="true">id</th>
+    <th data-field="name" data-editable="true" data-sortable="true">name</th>
+  </tr>
+  </thead>
+</table>
+<script type="text/javascript" src="/myjs/genresController.js"></script>

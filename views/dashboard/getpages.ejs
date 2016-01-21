@@ -1,0 +1,100 @@
+<h3>Manage pages</h3>
+
+<div class="row">
+  <div class="form-group col-md-6">
+    <select id="actions" class="form-control"></select>
+  </div>
+  <button id="apply" class="btn btn-primary">Apply</button>
+  <button id="add" class="btn btn-default">Add page</button>
+</div>
+
+
+<table id="pages" data-toggle="table" data-url="/dashboard/pages" data-pagination="true"
+       data-side-pagination="server" data-checkbox-header="true" data-sortable="true">
+  <thead>
+  <tr>
+    <th data-field="state" data-checkbox="true"></th>
+    <th data-field="id" data-sortable="true">id</th>
+    <th data-field="name" data-sortable="true" data-editable="true">name</th>
+    <th data-field="updatedAt" data-sortable="true">updated at</th>
+    <th data-field="access" data-sortable="true" data-editable="true" data-type="select" data-formatter="formatAccess"
+        data-source="/dashboard/roles">access</th>
+    <th data-field="order" data-sortable="true" data-editable="true">order</th>
+    <th data-field="showInMenu" data-sortable="true" data-source="/show.json" data-editable="true" data-type="checklist" data-emptytext="Don't show in menu">show in menu</th>
+    <th data-field="link" data-sortable="true" data-formatter="formatLink">Link</th>
+  </tr>
+  </thead>
+</table>
+
+<!-- Modal start-->
+<div class="modal fade" id="modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit page</h4>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" method="post">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="hidden" name="id" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" placeholder="Enter name of page" name="name" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Order</label>
+                <input type="number" placeholder="Enter order number of page" name="order" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Show in menu</label>
+                <select name="showInMenu" class="form-control">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Access level</label>
+                <select name="access" class="form-control">
+                  <% for (var i = 0; i < roles.length; i++) {%>
+                    <option value="<%- roles[i].id %>"><%- roles[i].name %></option>
+                  <% }%>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Link</label>
+                <input class="form-control" name="link">
+              </div>
+              <div class="form-group">
+                <label>Route</label>
+                <input class="form-control" name="route">
+              </div>
+            </div>
+          </div>
+          <div class="for-errors"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="save" type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal END-->
+
+<script type="text/javascript">
+  function formatLink(link, row, index) {
+    return row.showInMenu ? '<a href=' + link + '>' + row.name + '</a>' : "";
+  }
+
+
+  function formatAccess(access) {
+    return access.id;
+  }
+</script>
+<script type="text/javascript" src="/myjs/baseController.js"></script>
+<script type="text/javascript" src="/myjs/pagesController.js"></script>
