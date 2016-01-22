@@ -200,7 +200,7 @@ module.exports = {
       }
     ];
 
-    async.parallel(jobs, asyncComplete(req, res, 'PollOption', ['id', 'text', 'votesFor']));
+    async.parallel(jobs, asyncComplete(req, res, 'PollOption', ['id', 'text', 'amount']));
   },
 
   getComments: function(req, res) {
