@@ -16,7 +16,7 @@
 
     <meta name="twitter:title" content="<%- actor.firstName + ' ' + actor.lastName %>" />
     <meta name="twitter:description" content="<%= actor.generalInfo %>" />
-    <meta name="twitter:image" content="<%- actor.cover %>" />
+    <meta name="twitter:image" content="http://movie-collection.herokuapp.com/images/actors/<%- actor.cover %>" />
    <%} else if (typeof  movie !== 'undefined' && movie) {%>
     <meta content="/images/movies/<%- movie.cover %>" property="og:image">
     <meta content="<%- movie.name %> (<%- movie.year %>)" property="og:title">
@@ -24,7 +24,7 @@
 
     <meta name="twitter:title" content="<%- movie.name %> (<%- movie.year %>)" />
     <meta name="twitter:description" content="<%= movie.description %>" />
-    <meta name="twitter:image" content="/images/movies/<%- movie.cover %>" />
+    <meta name="twitter:image" content="http://movie-collection.herokuapp.com/images/movies/<%- movie.cover %>" />
     <% }%>
     <!--
         Stylesheets and Preprocessors
@@ -104,7 +104,7 @@
     -->
 
     <!--TEMPLATES-->
-    
+
     <!--TEMPLATES END-->
 
 
