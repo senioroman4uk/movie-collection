@@ -28,7 +28,6 @@ module.exports = {
   },
 
   create: function (req, res) {
-    sails.log.warn('test');
     var allowedParameters = ['name', 'email', 'password', 'repeatPassword'];
     var data = {};
 

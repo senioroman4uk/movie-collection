@@ -35,8 +35,6 @@ module.exports = {
         total += option.amount;
       });
 
-      sails.log.debug(this.options);
-
       return total;
     }
   }

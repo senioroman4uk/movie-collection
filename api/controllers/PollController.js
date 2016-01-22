@@ -15,7 +15,6 @@ module.exports = {
     else
       parameters['active'] = 0;
 
-    sails.log.info(parameters);
     Poll.create(parameters, function (err, poll) {
       if (err) {
         sails.log.error(err);
@@ -157,36 +156,43 @@ module.exports = {
         return res.redirect('/polls/' + pollId);
       }
 
-      var result = _.find(option.results, function(result) {
-        return result.user === req.session.user.id;
-      });
-
-
-      if (typeof  result !== 'undefined') {
-        req.session.flash.danger.push('you have already voted');
-        return res.redirect('/polls/' + pollId);
-      }
-
-      if (!! option === false) {
+      if (!!option === false) {
         req.session.flash.danger.push("Option not found");
         return res.redirect('/polls/' + pollId)
       }
 
-      var ip = req.ip.replace('::ffff:', '');
-
-
-      option.results.add({ip: ip, user: req.session.user.id});
-      option.amount++;
-
-      option.save(function (err, option) {
+      PollOption.query('SELECT op.id ' +
+        'FROM poll p ' +
+        'JOIN polloption op on(p.id = op.poll) ' +
+        'JOIN pollresult pr on (op.id = pr.option) ' +
+        'WHERE p.id = $1 AND pr.user = $2', [pollId, req.session.user.id], function (err, results) {
         if (err) {
           sails.log(err);
           req.session.flash.danger.push('operation failed');
           return res.redirect('/polls/' + pollId);
         }
 
-        req.session.flash.success.push("You have voted successfully");
-        return res.redirect('/polls/' + pollId);
+        if (results.rows.length > 0) {
+            req.session.flash.danger.push('you have already voted');
+            return res.redirect('/polls/' + pollId);
+        }
+
+        var ip = req.ip.replace('::ffff:', '');
+
+
+        option.results.add({ip: ip, user: req.session.user.id});
+        option.amount++;
+
+        option.save(function (err, option) {
+          if (err) {
+            sails.log(err);
+            req.session.flash.danger.push('saving failed');
+            return res.redirect('/polls/' + pollId);
+          }
+
+          req.session.flash.success.push("You have voted successfully");
+          return res.redirect('/polls/' + pollId);
+        });
       });
     });
   }

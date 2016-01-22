@@ -31,7 +31,7 @@ module.exports = {
 
   moveToAssets: function (type) {
     return function (record, cb) {
-      sails.log.warn(path.resolve(sails.config.appPath, '.tmp/public/images/' + type + '/' + record.cover));
+      //sails.log.warn(path.resolve(sails.config.appPath, '.tmp/public/images/' + type + '/' + record.cover));
       var src = path.resolve(sails.config.appPath, '.tmp/public/images/' + type + '/' + record.cover);
       fs.exists(src, function (exists) {
         if (exists) {

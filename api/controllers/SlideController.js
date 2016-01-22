@@ -7,7 +7,6 @@ module.exports = {
     var parameters = req.params.all();
     delete parameters['id'];
 
-    sails.log.info(parameters);
     Slide.create(parameters, function (err, slide) {
       if (err) {
         sails.log.error(err);
