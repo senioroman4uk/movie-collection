@@ -63,7 +63,8 @@
     // Bind any events we'll need for the carousel to function
     this.activate();
     // Start the timer loop to control progression to the next slide
-    this.initTimer();
+    if (this.totalSlides > 1)
+      this.initTimer();
   };
 
   /**
