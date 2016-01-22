@@ -171,9 +171,10 @@ var createAction = function (model, collections) {
 var simpleDestroy = function (model, redirect) {
   return function (req, res) {
     var id = req.param('id', null);
-    sails.log(model);
+    //for poll options
+    var poll = req.param('poll');
 
-    sails.models[model].destroy(id, function (err, data) {
+    sails.models[model.toLowerCase()].destroy(id, function (err, data) {
       if (err) {
         sails.log.error(err);
         req.session.flash.danger.push("deleting failed");
@@ -181,7 +182,7 @@ var simpleDestroy = function (model, redirect) {
       else
         req.session.flash.success.push("Operation successful");
 
-      return res.redirect(redirect || '/dashboard/' + model + 's');
+      return res.redirect(redirect.replace(":id", poll) || '/dashboard/' + model + 's');
     });
   }
 };

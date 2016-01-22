@@ -75,8 +75,11 @@ module.exports = {
       if (err) {
         sails.log.error(err);
         req.session.flash.danger.push("deleting failed");
-        return res.redirect('/dashboard/polls');
       }
+      else
+        req.session.flash.success.push("Operation successful");
+
+      return res.redirect('/dashboard/polls');
     })
   },
 
@@ -113,7 +116,7 @@ module.exports = {
     });
   },
 
-  destroyOption: actionService.simpleDestroy('pollOption', 'polls'),
+  destroyOption: actionService.simpleDestroy('pollOption', '/dashboard/polls/:id/options'),
 
   find: function (req, res) {
     var page = req.param('page', 1),
