@@ -10,7 +10,7 @@
 
   </p>
   <div class="progress">
-    <% locals.actorRaiting = typeof actor.raiting === 'function' ? actor.raiting() : 0 %>
+    <% locals.actorRaiting = typeof actor.rating === 'function' ? actor.rating() : 0 %>
     <div class="progress-bar" role="progressbar" aria-valuenow="<%- locals.actorRaiting %>"
          aria-valuemin="0" aria-valuemax="10" style="width: <%- locals.actorRaiting + '%' %>;">
     </div>

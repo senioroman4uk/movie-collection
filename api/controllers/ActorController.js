@@ -40,7 +40,7 @@ module.exports = {
 
     var jobs = [
       function (next) {
-        Actor.find().paginate({page: page, limit: limit}).exec(next);
+        Actor.find().paginate({page: page, limit: limit}).populate('movies').exec(next);
       },
 
       function (next) {

@@ -1,0 +1,24 @@
+<%- partial('../partials/flash') %>
+<div class="row">
+  <h1><%- poll.summary %></h1>
+
+  <form method="post" action="/vote">
+    <input type="hidden" name="pollId" value="<%- poll.id %>">
+
+    <% for (var i = 0; i < poll.options.length; i++) { %>
+    <div class="form-group">
+      <label>
+        <%- poll.options[i].text %>
+        <input type="radio" value="<%- poll.options[i].id %>" name="option">
+      </label>
+      <div class="progress">
+        <div style="width: <%- (poll.count() ? poll.options[i].amount / poll.count() : 0) * 100 %>%"
+             class="progress-bar"><%- poll.options[i].amount %>
+        </div>
+      </div>
+    </div>
+    <% } %>
+    <p><b>Total <%- poll.count() %></b></p>
+    <button type="submit" class="btn btn-lg btn-primary">Vote</button>
+  </form>
+</div>

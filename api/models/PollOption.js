@@ -17,6 +17,11 @@ module.exports = {
     results: {
       collection: 'pollResult',
       via: 'option'
+    },
+
+    amount: {
+      type: 'integer',
+      defaultsTo: 0
     }
   }
 };

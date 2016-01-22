@@ -1,0 +1,10 @@
+<% for (var i = 0; i < polls.length; i++) { %>
+<div class="well">
+  <h2><%- polls[i].summary %></h2>
+  <!--<h2>Poll <small>(votes: 4)</small></h2>-->
+
+  <p>
+    <a class="btn btn-primary btn-lg block" href="/polls/<%- polls[i].id %>">Vote</a>
+  </p>
+</div>
+<%}%>

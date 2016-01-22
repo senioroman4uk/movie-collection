@@ -15,6 +15,18 @@ var asyncComplete = function (req, res, model, properties) {
     else {
       vm['properties'] = properties;
       vm['layout'] = '/layouts/dashboardLayout';
+
+      var limit = Math.min(req.param('limit', 10), 20);
+      var page = req.param('page', 1);
+      var nums = paginationService.paginate(page, limit, data[1]);
+      var link = '/' + model + 's' + '?';
+      vm = _.extend(vm, {_link: link, _page: page,
+        _limit: limit,
+        _n: nums[0],
+        _i: nums[1],
+        _count: nums[2]
+        });
+
       return res.view('dashboard/get' + model + 's', vm);
     }
   }
@@ -170,7 +182,7 @@ module.exports = {
       }
     ];
 
-    async.parallel(jobs, asyncComplete(req, res, 'Poll', ['id', 'summary', 'active', 'createdAt']));
+    async.parallel(jobs, asyncComplete(req, res, 'Poll', ['id', 'summary', 'createdAt']));
   },
 
   getPollOptions: function (req, res) {
@@ -189,6 +201,21 @@ module.exports = {
     ];
 
     async.parallel(jobs, asyncComplete(req, res, 'PollOption', ['id', 'text', 'votesFor']));
+  },
+
+  getComments: function(req, res) {
+    var parameters = getParameters(req);
+
+    var jobs = [
+      function (next) {
+        Comment.find(parameters).populate('author').exec(next);
+      },
+      function (next) {
+        Comment.count(next)
+      }
+    ];
+
+    async.parallel(jobs, asyncComplete(req, res, 'Comment', ['Author', 'ip', 'text', 'createdAt']));
   },
 
   showSlides: function (req, res) {

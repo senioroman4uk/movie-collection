@@ -2,6 +2,8 @@
  * Created by Vladyslav on 20.01.2016.
  */
 
+var async = require('async');
+
 module.exports = {
   create: function (req, res) {
     sails.log.info(req.session.user);
@@ -55,5 +57,36 @@ module.exports = {
           return res.redirect(req.get('referrer') || '/');
         });
     })
-  }
+  },
+
+  destroy: function (req, res) {
+    var id = req.param('id');
+    sails.log.debug(id);
+
+    async.series([
+      function (cb) {
+        Comment.query('DELETE FROM comment ' +
+          'WHERE id IN ( ' +
+          'SELECT descendant FROM comment p ' +
+          'JOIN commentstreepath t ON p.id = t.descendant ' +
+          'WHERE t.ancestor = $1 )', [id], cb);
+      },
+
+      function (cb) {
+        Comment.query('DELETE FROM commentstreepath ' +
+        'WHERE descendant IN ( ' +
+          'SELECT descendant FROM commentstreepath ' +
+        'WHERE ancestor = $1)', [id], cb)
+      }
+
+    ], function(err) {
+      if (err) {
+        sails.log.error(err);
+        req.session.flash.danger.push('Operation failed');
+      } else
+        req.session.flash.success.push('Operation successful');
+
+      return res.redirect('/dashboard/comments');
+    });
+  },
 };

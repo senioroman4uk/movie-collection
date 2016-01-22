@@ -106,10 +106,11 @@ module.exports.routes = {
 
   'get /dashboard/polls/:pollId/options': {
     controller: 'Dashboard',
-    action: 'getPollOptions',
+    action: 'getPollOptions'
   },
 
   'get /dashboard/slides': 'Dashboard.showSlides',
+  'get /dashboard/comments': 'Dashboard.getComments',
 
   // END of Dashboard routes
 

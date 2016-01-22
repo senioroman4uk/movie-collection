@@ -10,7 +10,7 @@
             by <%- comments[j].author.name %>
             <% if (typeof req.session.user !== 'undefined') { %>
             <button type="submit" name="descendant" value="<%- comments[j].id + '_' + (comments[j].level + 1) %>"
-                    class="btn btn-xs btn-default" href="#">Reply
+                    class="reply btn btn-xs btn-default" href="#">Reply
             </button>
             <% } %>
           </h4>
@@ -20,7 +20,6 @@
         </div>
       </div>
       <% if(comments[j].children.length > 0) {
-        console.log(comments[j].children);
 
       for (var k = 0; k < comments[j].children.length; k++) {
         var level = comments[j].children[k].level - 1
@@ -35,7 +34,7 @@
             <% if (typeof req.session.user !== 'undefined') { %>
             <button type="submit" name="descendant"
                     value="<%- comments[j].children[k].id + '_' + (comments[j].children[k].level + 1) %>"
-                    class="btn btn-xs btn-default" href="#">Reply
+                    class="btn btn-xs btn-default reply">Reply
             </button>
             <% } %>
           </h4>
@@ -58,9 +57,21 @@
     <input type="hidden" name="articleId" value="<%- typeof actor !== 'undefined' ? actor.id : movie.id %>">
     <input type="hidden" name="articleType" value="<%- articleName %>">
     <label>
-      Text <input type="text" name="text">
+      Text <textarea class="form-control" name="text"></textarea>
     </label>
-    <button type="submit" class="btn btn-default" name="descendant" value="-1">Comment article</button>
+    <button type="submit" class="send btn btn-default" name="descendant" value="-1">Comment article</button>
   </div>
 </form>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.reply').click(function(e) {
+      e.preventDefault();
+
+
+      $('html, body').animate({
+        scrollTop: $('.send').val($(this).val()).offset().top
+      }, 2000);
+    })
+  });
+</script>
 <% } %>

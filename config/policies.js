@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': ['flash', 'pages', 'poll'],
+  '*': ['flash', 'pages'],
 
   DashboardController: {
     '*': ['flash', 'pages', 'sessionAdmin']
@@ -37,21 +37,25 @@ module.exports.policies = {
   },
 
   MovieController: {
-    'find': ['flash', 'pages', 'poll', 'slides']
+    'find': ['flash', 'pages', 'slides']
   },
 
   CommentController: {
-    '*': ['flash', 'pages', 'poll', 'slides'],
-    'create': ['flash', 'pages', 'poll', 'slides', 'sessionAuth']
+    '*': ['flash', 'pages', 'slides'],
+    'create': ['flash', 'pages', 'slides', 'sessionAuth']
   },
 
   UserController: {
-    '*': ['flash', 'pages', 'poll'],
-    'update': ['flash', 'pages', 'poll', 'sessionAuth', 'current'],
-    'find': ['flash', 'pages', 'poll', 'sessionAuth'],
-    'findOne': ['flash', 'pages', 'poll', 'sessionAuth'],
-    'findOneByName': ['flash', 'pages', 'poll', 'sessionAuth'],
-    'edit': ['flash', 'pages', 'poll', 'sessionAuth', 'current']
+    '*': ['flash', 'pages'],
+    'update': ['flash', 'pages', 'sessionAuth', 'current'],
+    'find': ['flash', 'pages', 'sessionAuth'],
+    'findOne': ['flash', 'pages', 'sessionAuth'],
+    'findOneByName': ['flash', 'pages', 'sessionAuth'],
+    'edit': ['flash', 'pages', 'sessionAuth', 'current']
+  },
+
+  PollController: {
+    '*': ['flash', 'pages', 'sessionAuth']
   }
 
   /***************************************************************************

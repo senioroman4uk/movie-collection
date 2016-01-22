@@ -115,30 +115,75 @@ module.exports = {
 
   destroyOption: actionService.simpleDestroy('pollOption', 'polls'),
 
+  find: function (req, res) {
+    var page = req.param('page', 1),
+      limit = Math.min(req.param('limit', 5), 5);
+
+    var jobs = [
+      function (next) {
+        Poll.find().paginate({page: page, limit: limit}).exec(next);
+      },
+
+      function (next) {
+        Poll.count().exec(next);
+      }
+    ];
+
+    async.parallel(jobs, queryHandlerService.find(req, res, limit, page, {}, 'poll', 'polls', []));
+  },
+
+  findOne: function (req, res) {
+    var id = req.param('id', '');
+    Poll.findOne(id).populateAll().exec(queryHandlerService.findOne(req, res, 'poll'));
+  },
+
   vote: function (req, res) {
     var optionId = req.param('option');
+    var pollId = req.param('pollId', -1);
 
-    PollOption.findOne(optionId).populateAll().exex(function (err, option) {
-      if (err)
-        return res.negotiate(err);
+    if (pollId === -1) {
+      req.session.flash.danger.push("poll not found");
+      return res.redirect('/polls');
+    }
 
-      var ip = req.ip.replace('::ffff:', '');
-      var user = typeof req.session.user === 'undefined' ? null : req.session.user.id;
-      var votes = option.results.find(function (element) {
-        return element.ip === ip && (user == null && element.user == null) ||
-          (user != null && element.user.id === user);
-      });
-      if (votes.length > 0) {
-        //alreadyVoted;
+
+    PollOption.findOne(optionId).populateAll().exec(function (err, option) {
+      if (err) {
+        sails.log(err);
+        req.session.flash.danger.push('operation failed');
+        return res.redirect('/polls/' + pollId);
       }
 
-      option.votes.add({ip: ip, user: user});
+      var result = _.find(option.results, function(result) {
+        return result.user === req.session.user.id;
+      });
+
+
+      if (typeof  result !== 'undefined') {
+        req.session.flash.danger.push('you have already voted');
+        return res.redirect('/polls/' + pollId);
+      }
+
+      if (!! option === false) {
+        req.session.flash.danger.push("Option not found");
+        return res.redirect('/polls/' + pollId)
+      }
+
+      var ip = req.ip.replace('::ffff:', '');
+
+
+      option.results.add({ip: ip, user: req.session.user.id});
+      option.amount++;
+
       option.save(function (err, option) {
-        if (err)
-          return res.negotiate(err);
+        if (err) {
+          sails.log(err);
+          req.session.flash.danger.push('operation failed');
+          return res.redirect('/polls/' + pollId);
+        }
 
-
-        return res.redirect(req.get('referrer') || '/');
+        req.session.flash.success.push("You have voted successfully");
+        return res.redirect('/polls/' + pollId);
       });
     });
   }

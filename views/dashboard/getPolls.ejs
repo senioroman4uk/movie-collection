@@ -1,9 +1,8 @@
-<%- partial('../partials/flash') %>
 <form class="form-inline" action="/polls/create">
   <label for="summary">Poll summary</label>
   <input class="form-control" type="text" name="summary" id="summary">
   <label for="active">Active</label>
-  <input class="form-control" type="checkbox" name="active" id="active">
+  <!--<input class="form-control" type="checkbox" name="active" id="active">-->
   <button class="btn btn-primary" type="submit">Create poll</button>
 </form>
 <% if (rows.length > 0) { %>
@@ -12,7 +11,6 @@
   <tr>
     <th class="th">Id</th>
     <th class="th">Summary</th>
-    <th class="th">Active</th>
     <th class="th">Created at</th>
   </tr>
   </thead>

@@ -6,14 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="utf-8">
 
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@senioroman4uk" />
+
     <% if (typeof actor !== 'undefined' && actor) {%>
-    <meta content="/inages/actors/<%- actor.cover %>" property="og:image">
+    <meta content="/images/actors/<%- actor.cover %>" property="og:image">
     <meta content="<%- actor.firstName + ' ' + actor.lastName %>" property="og:title">
     <meta content="<%= actor.generalInfo %>" property="og:description">
+
+    <meta name="twitter:title" content="<%- actor.firstName + ' ' + actor.lastName %>" />
+    <meta name="twitter:description" content="<%= actor.generalInfo %>" />
+    <meta name="twitter:image" content="<%- actor.cover %>" />
    <%} else if (typeof  movie !== 'undefined' && movie) {%>
     <meta content="/images/movies/<%- movie.cover %>" property="og:image">
     <meta content="<%- movie.name %> (<%- movie.year %>)" property="og:title">
     <meta content="<%= movie.description %>" property="og:description">
+
+    <meta name="twitter:title" content="<%- movie.name %> (<%- movie.year %>)" />
+    <meta name="twitter:description" content="<%= movie.description %>" />
+    <meta name="twitter:image" content="/images/movies/<%- movie.cover %>" />
     <% }%>
     <!--
         Stylesheets and Preprocessors

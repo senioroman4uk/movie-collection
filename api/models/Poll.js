@@ -16,12 +16,28 @@ module.exports = {
 
     active: {
       type: 'integer',
-      defaultsTo: 0
+      defaultsTo: 1
     },
 
     options: {
       collection: 'pollOption',
       via: 'poll'
+    },
+
+    getName: function() {
+      return this.summary;
+    },
+
+    count: function(){
+      var total = 0;
+
+      this.options.forEach(function(option) {
+        total += option.amount;
+      });
+
+      sails.log.debug(this.options);
+
+      return total;
     }
   }
 };
