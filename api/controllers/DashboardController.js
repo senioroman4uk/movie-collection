@@ -215,7 +215,7 @@ module.exports = {
       }
     ];
 
-    async.parallel(jobs, asyncComplete(req, res, 'Comment', ['Author', 'ip', 'text', 'createdAt']));
+    async.parallel(jobs, asyncComplete(req, res, 'Comment', ['ip', 'text', 'createdAt']));
   },
 
   showSlides: function (req, res) {

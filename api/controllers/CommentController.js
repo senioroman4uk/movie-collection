@@ -61,7 +61,6 @@ module.exports = {
 
   destroy: function (req, res) {
     var id = req.param('id');
-    sails.log.debug(id);
 
     async.series([
       function (cb) {
